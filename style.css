@@ -1,10 +1,16 @@
+/* Estilo general */
 body {
   font-family: Arial, sans-serif;
   text-align: center;
   background-color: #f9f9f9;
   padding: 30px;
+  margin: 0;
+  color: #000;
+  z-index: 1;
+  position: relative;
 }
 
+/* Pantallas (cada sección de preguntas o contenido) */
 .pantalla {
   display: none;
 }
@@ -13,21 +19,46 @@ body {
   display: block;
 }
 
-img {
-  max-width: 80%;
-  margin: 20px 0;
-}
-
+/* Botones */
 button {
   padding: 10px 20px;
   font-size: 16px;
   margin: 10px;
   cursor: pointer;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 6px;
 }
 
+button:hover {
+  background-color: #0056b3;
+}
+
+/* Imágenes */
+img {
+  max-width: 80%;
+  margin: 20px 0;
+  display: block;
+}
+
+/* Respuesta final */
 .respuesta {
   font-weight: bold;
   font-size: 20px;
   margin-top: 30px;
   color: darkblue;
+}
+
+/* 🎥 Fondo de vídeo */
+#video-fondo {
+  position: fixed;
+  top: 0;
+  left: 0;
+  min-width: 100%;
+  min-height: 100%;
+  object-fit: cover;
+  z-index: -1;
+  pointer-events: none;
+  opacity: 0.8;
 }

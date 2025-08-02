@@ -1,56 +1,57 @@
-/* 🎥 Vídeo de fondo */
+/* 🎥 Fondo de vídeo */
 #videoFondo {
   position: fixed;
   top: 0;
   left: 0;
   width: 100vw;
   height: 100vh;
-  object-fit: cover; /* 'cover' para que llene sin bordes */
+  object-fit: contain;
   z-index: -1;
   pointer-events: none;
-  background-color: black;
+  background: black;
 }
 
-/* 🧱 Reset general */
-body, html {
+/* 🎯 Reset y cuerpo */
+html, body {
   margin: 0;
   padding: 0;
   width: 100%;
   height: 100%;
+  overflow: hidden;
   font-family: Arial, sans-serif;
   background-color: black;
-  overflow: hidden;
 }
 
 /* 📦 Contenedor del contenido */
 #contenido {
-  position: relative;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
   z-index: 1;
   display: flex;
-  flex-direction: column;
   justify-content: center;
   align-items: center;
-  min-height: 100vh;
+  text-align: center;
   padding: 2rem;
   box-sizing: border-box;
-  text-align: center;
 }
 
 /* 🪟 Pantallas */
 .pantalla {
   display: none;
-  background-color: rgba(0, 0, 0, 0.7);
+  flex-direction: column;
+  background: rgba(0, 0, 0, 0.7);
   padding: 2rem;
   border-radius: 10px;
+  color: white;
   max-width: 90%;
   width: 100%;
-  color: white;
 }
 
 .pantalla.visible {
   display: flex;
-  flex-direction: column;
-  align-items: center;
 }
 
 /* 🔘 Botones */
@@ -63,14 +64,14 @@ button {
   background-color: white;
   color: black;
   cursor: pointer;
-  transition: background-color 0.3s ease;
+  transition: 0.3s ease;
 }
 
 button:hover {
   background-color: #ccc;
 }
 
-/* 🖼️ Imágenes */
+/* 🖼️ Imagen */
 img {
   max-width: 100%;
   height: auto;
@@ -78,8 +79,16 @@ img {
   border-radius: 8px;
 }
 
-/* 📱 Estilos para móviles */
+/* 📱 Estilos móviles */
 @media (max-width: 768px) {
+  #contenido {
+    padding: 1rem;
+  }
+
+  .pantalla {
+    padding: 1.5rem;
+  }
+
   button {
     font-size: 1.4rem;
     padding: 1rem 2.5rem;

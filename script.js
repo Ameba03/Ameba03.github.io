@@ -1,11 +1,20 @@
 function siguientePantalla(id) {
-  const pantallas = document.querySelectorAll('.pantalla');
-  pantallas.forEach(p => p.classList.remove('activa'));
-  document.getElementById(id).classList.add('activa');
+  document.querySelectorAll('.pantalla').forEach(p => {
+    p.classList.remove('activa');
+    p.classList.add('oculto');
+  });
+  const siguiente = document.getElementById(id);
+  if (siguiente) {
+    siguiente.classList.remove('oculto');
+    siguiente.classList.add('activa');
+  }
 }
 
 function responder(respuesta) {
-  document.getElementById("respuesta").innerText = respuesta === "si"
-    ? "Perfecto, continúa adelante."
-    : "Tómate tu tiempo.";
+  const div = document.getElementById('respuesta');
+  if (respuesta === 'si') {
+    div.innerHTML = '🚀 ¡BOOOM! Allá vamos ✨';
+  } else {
+    div.innerHTML = 'Uuups... vuelve a pensarlo 🤔';
+  }
 }

@@ -1,85 +1,66 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8" />
+  <meta charset="UTF-8">
   <title>Web Interactiva NFC</title>
-  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-  <!-- 🎥 Vídeo de fondo -->
+  <!-- 🎥 Video de fondo -->
   <video autoplay muted loop id="videoFondo">
     <source src="fondo.mp4" type="video/mp4">
-    Tu navegador no soporta video HTML5.
+    Tu navegador no soporta videos HTML5.
   </video>
 
-  <!-- 🔊 Audio de fondo -->
-  <audio autoplay loop>
-    <source src="fondo.mp3" type="audio/mpeg">
-    Tu navegador no soporta audio.
-  </audio>
+  <!-- 🔊 Audio opcional (puedes descomentar si quieres sonido de fondo) -->
+  <!-- <audio autoplay loop>
+    <source src="fondo.mp3" type="audio/mp3">
+  </audio> -->
 
-  <!-- 🧱 Contenido sobre el fondo -->
+  <!-- 📄 Contenido por pantallas -->
   <div id="contenido">
-
+    
+    <!-- Pantalla 1 -->
     <div id="pantalla1" class="pantalla activa">
       <p class="pregunta">¿Te denominas Marieta, Ratilla, Ninja, o María?</p>
       <button class="boton" onclick="siguientePantalla('pantalla2')">Sí</button>
     </div>
 
+    <!-- Pantalla 2 -->
     <div id="pantalla2" class="pantalla">
       <p class="pregunta">¿Estás viendo la Luna ahora mismo?</p>
       <button class="boton" onclick="siguientePantalla('pantalla3')">Sí</button>
     </div>
 
+    <!-- Pantalla 3 -->
     <div id="pantalla3" class="pantalla">
       <h2>Comencemos un momento</h2>
       <div class="texto">
-        <p>HOLAHOLAHOLA... (texto largo)</p>
-
-        <!-- Puedes añadir más fotos aquí -->
-        <img src="foto01.jpg" alt="Foto 1" />
-        <p>Texto de la imagen</p>
-
-        <!-- Pregunta final -->
-        <div class="final">
-          <p>¿Quieres esto?</p>
-          <button onclick="responder('si')">Sí</button>
-          <button onclick="responder('no')">No</button>
-        </div>
-
-        <div id="respuesta" class="respuesta"></div>
+        HOLA HOLA HOLA... (imagina aquí un texto largo o poema)
       </div>
+      <button class="boton" onclick="siguientePantalla('pantalla4')">Continuar</button>
+    </div>
+
+    <!-- Pantalla 4: imágenes -->
+    <div id="pantalla4" class="pantalla">
+      <div class="texto">
+        <img src="foto01.jpg" alt="Foto 1">
+        <p>Texto debajo de la imagen...</p>
+      </div>
+      <button class="boton" onclick="siguientePantalla('pantalla5')">Seguir</button>
+    </div>
+
+    <!-- Pantalla 5: pregunta final -->
+    <div id="pantalla5" class="pantalla final">
+      <p class="pregunta">¿Estás lista para lo que viene?</p>
+      <button onclick="responder('si')">Sí</button>
+      <button onclick="responder('no')">No</button>
+      <div class="respuesta" id="respuesta"></div>
     </div>
 
   </div>
 
-  <script>
-    function siguientePantalla(id) {
-      // Oculta todas las pantallas
-      document.querySelectorAll('.pantalla').forEach(p => {
-        p.classList.remove('activa');
-      });
-
-      // Muestra la siguiente
-      const siguiente = document.getElementById(id);
-      if (siguiente) {
-        siguiente.classList.add('activa');
-      }
-    }
-
-    function responder(respuesta) {
-      const divRespuesta = document.getElementById('respuesta');
-      if (respuesta === 'si') {
-        divRespuesta.innerHTML = '🚀✨🎉 ¡BOOM! Bienvenida al viaje 🎉✨🚀';
-      } else {
-        divRespuesta.innerHTML = '<h2>Uuups... ¡piénsalo mejor! 😅</h2>';
-        setTimeout(() => {
-          siguientePantalla('pantalla1');
-        }, 3000);
-      }
-    }
-  </script>
-
+  <script src="script.js"></script>
 </body>
 </html>

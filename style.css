@@ -1,98 +1,94 @@
-/* Video de fondo */
+/* 🎥 Vídeo de fondo que se adapta sin recorte */
 .video-fondo {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
-    object-fit: contain;  /* ❗ Asegura que el video NO se recorte */
-    z-index: -1;
-    pointer-events: none;
-    background-color: black;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  object-fit: contain; /* 🔒 Asegura que no haya zoom ni recorte */
+  z-index: -1;
+  background-color: black;
+  pointer-events: none;
 }
 
-/* Reset general */
+/* 🔧 Estilos generales */
 body, html {
-    margin: 0;
-    padding: 0;
-    width: 100%;
-    height: 100%;
-    overflow-x: hidden;
-    background-color: black;
-    font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  font-family: Arial, sans-serif;
+  background-color: black;
+  overflow: hidden;
 }
 
-/* Contenedor principal */
 #contenido {
-    position: relative;
-    z-index: 1;
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    padding: 20px;
-    box-sizing: border-box;
+  position: relative;
+  z-index: 1;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 2rem;
+  text-align: center;
+  box-sizing: border-box;
 }
 
-/* Cada pantalla */
+/* Pantallas */
 .pantalla {
-    display: none;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
-    background-color: rgba(0, 0, 0, 0.75);
-    padding: 20px;
-    border-radius: 10px;
-    color: white;
-    width: 100%;
-    max-width: 400px;
-    margin: 10px auto;
+  display: none;
+  flex-direction: column;
+  background-color: rgba(0, 0, 0, 0.7);
+  padding: 2rem;
+  border-radius: 10px;
+  max-width: 90%;
+  width: 100%;
+  color: white;
 }
 
-/* Pantalla visible */
 .pantalla.visible {
-    display: flex;
+  display: flex;
 }
 
-/* Botones */
 button {
-    padding: 15px 30px;
-    font-size: 18px;
-    margin-top: 15px;
-    border: none;
-    border-radius: 6px;
-    cursor: pointer;
-    background-color: white;
-    color: black;
-    transition: background-color 0.3s ease;
+  margin-top: 1rem;
+  padding: 1rem 2rem;
+  font-size: 1.2rem;
+  background-color: white;
+  color: black;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
 }
 
 button:hover {
-    background-color: #ddd;
+  background-color: #ccc;
 }
 
-/* Imagen */
 img {
-    max-width: 100%;
-    height: auto;
-    margin: 10px 0;
+  max-width: 100%;
+  height: auto;
+  margin: 1rem 0;
+  border-radius: 8px;
 }
 
-/* RESPONSIVE - mejorar legibilidad en móviles */
-@media screen and (max-width: 600px) {
-    .pantalla {
-        font-size: 18px;
-        padding: 25px;
-    }
+/* 📱 Adaptación a móviles */
+@media (max-width: 768px) {
+  .pantalla {
+    padding: 1.5rem;
+  }
 
-    button {
-        font-size: 20px;
-        padding: 18px 36px;
-    }
+  button {
+    font-size: 1.4rem;
+    padding: 1rem 2.5rem;
+  }
 
-    .video-fondo {
-        object-fit: contain;
-    }
+  p, h2 {
+    font-size: 1.4rem;
+  }
+
+  .video-fondo {
+    object-fit: contain; /* 🔒 sigue mostrando el vídeo completo sin zoom */
+  }
 }

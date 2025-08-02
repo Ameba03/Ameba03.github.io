@@ -3,13 +3,16 @@
 <head>
   <meta charset="UTF-8">
   <title>Web Interactiva NFC</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-<video autoplay loop muted playsinline id="video-fondo">
-  <source src="fondo.mp4" type="video/mp4">
-  Tu navegador no soporta vídeos HTML5.
-</video>
+
+  <!-- 🎥 Vídeo de fondo -->
+  <video autoplay loop muted playsinline id="video-fondo">
+    <source src="fondo.mp4" type="video/mp4">
+    Tu navegador no soporta vídeos HTML5.
+  </video>
 
   <!-- Pantalla 1 -->
   <div id="pantalla1" class="pantalla activa">
@@ -26,7 +29,9 @@
   <!-- Pantalla 3 -->
   <div id="pantalla3" class="pantalla">
     <h2>Comencemos un momento</h2>
-    <p>HOLAHOLAHOLA... (texto largo)</p>
+    <p>
+      HOLAHOLAHOLAHOALHAOLAHOLAHOLAHO... (puedes escribir aquí tu texto largo completo)
+    </p>
 
     <img src="foto01.jpg" alt="Foto 1">
     <p>Texto 1</p>
@@ -34,7 +39,23 @@
     <img src="foto02.jpg" alt="Foto 2">
     <p>Texto 2</p>
 
-    <!-- Agrega más imágenes hasta foto08.jpg si las tienes -->
+    <img src="foto03.jpg" alt="Foto 3">
+    <p>Texto 3</p>
+
+    <img src="foto04.jpg" alt="Foto 4">
+    <p>Texto 4</p>
+
+    <img src="foto05.jpg" alt="Foto 5">
+    <p>Texto 5</p>
+
+    <img src="foto06.jpg" alt="Foto 6">
+    <p>Texto 6</p>
+
+    <img src="foto07.jpg" alt="Foto 7">
+    <p>Texto 7</p>
+
+    <img src="foto08.jpg" alt="Foto 8">
+    <p>Texto 8</p>
 
     <div>
       <p>¿Quieres esto?</p>
@@ -45,13 +66,13 @@
     <div id="respuesta" class="respuesta"></div>
   </div>
 
-  <!-- Audio -->
+  <!-- 🔊 Música de fondo -->
   <audio autoplay loop>
     <source src="fondo.mp3" type="audio/mpeg">
     Tu navegador no soporta audio.
   </audio>
 
+  <!-- JS externo -->
   <script src="script.js"></script>
 </body>
 </html>
-

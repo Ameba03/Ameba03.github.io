@@ -1,15 +1,33 @@
-function siguientePantalla(id) {
-  document.querySelectorAll('.pantalla').forEach(p => p.classList.add('oculto'));
-  document.getElementById(id).classList.remove('oculto');
+body {
+  font-family: Arial, sans-serif;
+  text-align: center;
+  background: #f9f9f9;
+  padding: 20px;
 }
 
-function responder(respuesta) {
-  const div = document.getElementById("respuesta");
-  if (respuesta === "si") {
-    div.innerHTML = "🚀 ¡Prepárate! Esto va a despegar... 🚀";
-    div.classList.add("cohete");
-  } else {
-    div.innerHTML = "🙃 Upps... te has equivocado. ¡Vuelve a pensarlo anda!";
-    setTimeout(() => location.reload(), 4000);
-  }
+.pantalla {
+  display: none;
+}
+
+.pantalla:not(.oculto) {
+  display: block;
+}
+
+img {
+  max-width: 80%;
+  margin: 20px auto;
+  display: block;
+}
+
+button {
+  padding: 10px 20px;
+  margin: 10px;
+  font-size: 16px;
+}
+
+.respuesta {
+  margin-top: 30px;
+  font-weight: bold;
+  font-size: 20px;
+  color: darkblue;
 }

@@ -1,10 +1,13 @@
-/* 🎥 Fondo de vídeo */
+/* 🎥 Fondo de vídeo centrado */
 #videoFondo {
   position: fixed;
-  top: 0;
-  left: 0;
+  top: 50%;
+  left: 50%;
   min-width: 100vw;
   min-height: 100vh;
+  width: auto;
+  height: auto;
+  transform: translate(-50%, -50%);
   object-fit: cover;
   z-index: -1;
 }
@@ -24,44 +27,43 @@
   padding: 20px;
 }
 
-/* Cada pantalla */
+/* Pantallas */
 .pantalla {
   display: none;
-  background-color: rgba(0, 0, 0, 0.6);
+  background-color: rgba(0, 0, 0, 0.7);
   padding: 40px;
   border-radius: 15px;
   max-width: 700px;
   margin: auto;
 }
 
-/* Mostrar la activa */
 .pantalla.activa {
   display: block;
 }
 
 /* Texto principal */
 .pregunta {
-  font-size: 1.8em;
+  font-size: 2em;
   margin-bottom: 30px;
 }
 
 /* Botones */
 .boton,
 .final button {
-  font-size: 1.2em;
-  padding: 12px 30px;
-  margin: 10px;
+  font-size: 1.4em;
+  padding: 15px 40px;
+  margin: 12px;
   border: none;
   background-color: #fff;
   color: #000;
-  border-radius: 8px;
+  border-radius: 10px;
   cursor: pointer;
   transition: background 0.3s;
 }
 
 .boton:hover,
 .final button:hover {
-  background-color: #ddd;
+  background-color: #ccc;
 }
 
 /* Texto largo y fotos */
@@ -78,9 +80,32 @@
   border-radius: 10px;
 }
 
+/* Resultado final */
 .respuesta {
   margin-top: 20px;
   font-size: 1.5em;
   font-weight: bold;
   color: #ffe600;
+}
+
+/* 📱 Móviles */
+@media (max-width: 600px) {
+  .pregunta {
+    font-size: 1.4em;
+  }
+
+  .boton,
+  .final button {
+    font-size: 1.2em;
+    padding: 12px 30px;
+  }
+
+  .pantalla {
+    width: 90%;
+    padding: 25px;
+  }
+
+  #contenido {
+    padding: 10px;
+  }
 }

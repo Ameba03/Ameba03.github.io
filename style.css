@@ -1,52 +1,54 @@
-/* Fondo de video */
+/* Video de fondo */
 .video-fondo {
     position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 100%;
-    height: 100%;
-    object-fit: contain;  /* ✅ Mostrar el vídeo completo sin recorte ni zoom */
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    object-fit: contain;  /* ❗ Asegura que el video NO se recorte */
     z-index: -1;
     pointer-events: none;
     background-color: black;
 }
 
-/* Reset básico y configuración general */
+/* Reset general */
 body, html {
     margin: 0;
     padding: 0;
+    width: 100%;
     height: 100%;
-    font-family: 'Arial', sans-serif;
     overflow-x: hidden;
     background-color: black;
+    font-family: Arial, sans-serif;
 }
 
-/* Contenedor del contenido */
+/* Contenedor principal */
 #contenido {
     position: relative;
     z-index: 1;
+    min-height: 100vh;
     display: flex;
     flex-direction: column;
-    align-items: center;
     justify-content: center;
-    min-height: 100vh;
+    align-items: center;
     padding: 20px;
+    box-sizing: border-box;
 }
 
-/* Pantallas individuales */
+/* Cada pantalla */
 .pantalla {
     display: none;
     flex-direction: column;
-    align-items: center;
     justify-content: center;
+    align-items: center;
     text-align: center;
     background-color: rgba(0, 0, 0, 0.75);
-    border-radius: 10px;
     padding: 20px;
-    margin: 10px;
-    max-width: 90%;
+    border-radius: 10px;
     color: white;
+    width: 100%;
+    max-width: 400px;
+    margin: 10px auto;
 }
 
 /* Pantalla visible */
@@ -54,16 +56,16 @@ body, html {
     display: flex;
 }
 
-/* Botón */
+/* Botones */
 button {
-    padding: 12px 25px;
-    margin-top: 15px;
+    padding: 15px 30px;
     font-size: 18px;
+    margin-top: 15px;
     border: none;
     border-radius: 6px;
+    cursor: pointer;
     background-color: white;
     color: black;
-    cursor: pointer;
     transition: background-color 0.3s ease;
 }
 
@@ -71,26 +73,26 @@ button:hover {
     background-color: #ddd;
 }
 
-/* Imagen centrada */
+/* Imagen */
 img {
     max-width: 100%;
     height: auto;
     margin: 10px 0;
 }
 
-/* Responsivo para móvil */
-@media screen and (max-width: 768px) {
+/* RESPONSIVE - mejorar legibilidad en móviles */
+@media screen and (max-width: 600px) {
     .pantalla {
         font-size: 18px;
-        padding: 20px;
+        padding: 25px;
     }
 
     button {
         font-size: 20px;
-        padding: 15px 30px;
+        padding: 18px 36px;
     }
 
     .video-fondo {
-        object-fit: contain; /* Asegura que se vea completo en móvil también */
+        object-fit: contain;
     }
 }

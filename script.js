@@ -1,7 +1,9 @@
 function siguientePantalla(id) {
   const pantallas = document.querySelectorAll('.pantalla');
-  pantallas.forEach(p => p.classList.remove('visible'));
-  pantallas.forEach(p => p.classList.add('oculto'));
+  pantallas.forEach(p => {
+    p.classList.remove('visible');
+    p.classList.add('oculto');
+  });
 
   const siguiente = document.getElementById(id);
   if (siguiente) {

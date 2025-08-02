@@ -1,54 +1,54 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <title>Web Interactiva NFC</title>
+  <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="style.css">
+  <title>Web Interactiva NFC</title>
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
 
-  <!-- 🎥 Fondo de video -->
+  <!-- 🎥 Fondo de vídeo -->
   <div class="video-container">
-    <video autoplay muted loop playsinline id="videoFondo">
-      <source src="fondo.mp4" type="video/mp4">
-      Tu navegador no soporta video HTML5.
+    <video autoplay muted loop playsinline class="video-fondo desktop">
+      <source src="fondo.mp4" type="video/mp4" />
+    </video>
+    <video autoplay muted loop playsinline class="video-fondo mobile">
+      <source src="fondo móvil (2).mp4" type="video/mp4" />
     </video>
   </div>
 
-  <!-- 🔊 Audio opcional -->
-  <!-- <audio autoplay loop>
+  <!-- 🎧 Sonido de fondo (opcional) -->
+  <audio autoplay loop>
     <source src="fondo.mp3" type="audio/mpeg">
-  </audio> -->
+    Tu navegador no soporta audio.
+  </audio>
 
-  <!-- 🧱 Contenido por pantallas -->
+  <!-- 📱 Contenido -->
   <div id="contenido">
-
-    <div id="pantalla1" class="pantalla activa">
-      <p class="pregunta">¿Te denominas Marieta, Ratilla, Ninja, o María?</p>
-      <button class="boton" onclick="siguientePantalla('pantalla2')">Sí</button>
+    <div id="pantalla1" class="pantalla visible">
+      <p>¿Te denominas Marieta, Ratilla, Ninja, o María?</p>
+      <button onclick="siguientePantalla('pantalla2')">Sí</button>
     </div>
 
-    <div id="pantalla2" class="pantalla oculto">
-      <p class="pregunta">¿Estás viendo la Luna ahora mismo?</p>
-      <button class="boton" onclick="siguientePantalla('pantalla3')">Sí</button>
+    <div id="pantalla2" class="pantalla">
+      <p>¿Estás viendo la Luna ahora mismo?</p>
+      <button onclick="siguientePantalla('pantalla3')">Sí</button>
     </div>
 
-    <div id="pantalla3" class="pantalla oculto">
+    <div id="pantalla3" class="pantalla">
       <h2>Comencemos un momento</h2>
-      <p class="texto">Aquí va tu texto largo con imágenes y cosas que contar...</p>
+      <p>HOLAHOLAHOLA... (texto largo)</p>
       <img src="foto01.jpg" alt="Foto 1">
-      <p class="texto">Texto bajo la imagen</p>
-      <button class="boton" onclick="siguientePantalla('pantalla4')">Continuar</button>
+      <p>¿Qué es la imagen?</p>
+      <button onclick="siguientePantalla('pantalla4')">A</button>
+      <button onclick="siguientePantalla('pantalla4')">B</button>
     </div>
 
-    <div id="pantalla4" class="pantalla oculto">
-      <p class="pregunta">¿Quieres esto?</p>
-      <button class="boton" onclick="responder('si')">Sí</button>
-      <button class="boton" onclick="responder('no')">No</button>
-      <div id="respuesta" class="respuesta"></div>
+    <div id="pantalla4" class="pantalla">
+      <h2>Gracias por participar</h2>
+      <p>Fin del formulario. Puedes cerrar esta ventana.</p>
     </div>
-
   </div>
 
   <script src="script.js"></script>

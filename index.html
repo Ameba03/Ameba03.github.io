@@ -1,1 +1,79 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Web Interactiva NFC</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- Pantalla 1 -->
+  <div id="pantalla1" class="pantalla">
+    <p>¿Te denominas Marieta, Ratilla, Ninja, o María?</p>
+    <button onclick="siguientePantalla('pantalla2')">Sí</button>
+  </div>
+
+  <!-- Pantalla 2 -->
+  <div id="pantalla2" class="pantalla oculto">
+    <p>¿Estás viendo la Luna ahora mismo?</p>
+    <button onclick="siguientePantalla('pantalla3')">Sí</button>
+  </div>
+
+  <!-- Pantalla 3: Contenido principal -->
+  <div id="pantalla3" class="pantalla oculto">
+    <h2>Comencemos un momento</h2>
+    <div class="texto">
+      <p>
+        HOLAHOLAHOLAHOALHAOLAHOLAHOLAHOLAHOALHAOLAHOLAHO...
+        (puedes aquí meter el texto largo como quieras).
+      </p>
+
+      <!-- Imágenes intercaladas -->
+      <img src="images/foto01.jpg" alt="Foto 1">
+      <p>Texto que acompaña la imagen 1</p>
+
+      <img src="images/foto02.jpg" alt="Foto 2">
+      <p>Texto que acompaña la imagen 2</p>
+
+      <img src="images/foto03.jpg" alt="Foto 3">
+      <p>Texto que acompaña la imagen 3</p>
+
+      <img src="images/foto04.jpg" alt="Foto 4">
+      <p>Texto que acompaña la imagen 4</p>
+
+      <img src="images/foto05.jpg" alt="Foto 5">
+      <p>Texto que acompaña la imagen 5</p>
+
+      <img src="images/foto06.jpg" alt="Foto 6">
+      <p>Texto que acompaña la imagen 6</p>
+
+      <img src="images/foto07.jpg" alt="Foto 7">
+      <p>Texto que acompaña la imagen 7</p>
+
+      <img src="images/foto08.jpg" alt="Foto 8">
+      <p>Texto que acompaña la imagen 8</p>
+
+      <!-- Pregunta final -->
+      <div class="final">
+        <p>¿Quieres esto?</p>
+        <button onclick="responder('si')">Sí</button>
+        <button onclick="responder('no')">No</button>
+      </div>
+
+      <div id="respuesta" class="respuesta"></div>
+    </div>
+  </div>
+
+  <!-- Música de fondo -->
+  <audio autoplay loop>
+    <source src="audio/fondo.mp3" type="audio/mpeg">
+    Tu navegador no soporta audio.
+  </audio>
+
+  <!-- Script externo -->
+  <script src="script.js"></script>
+</body>
+</html>
+
 

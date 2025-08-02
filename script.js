@@ -13,5 +13,13 @@ function siguientePantalla(id) {
 }
 
 function finalizar() {
-  siguientePantalla('pantallaFinal');
+  siguientePantalla('pantalla4');
+}
+
+function respuestaFinal(opcion) {
+  if (opcion === 'si') {
+    siguientePantalla('pantalla6');
+  } else {
+    siguientePantalla('pantalla7');
+  }
 }

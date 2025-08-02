@@ -1,3 +1,17 @@
+/* Estilos generales */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html, body {
+  height: 100%;
+  font-family: 'Arial', sans-serif;
+  overflow-x: hidden;
+  color: #fff;
+}
+
 /* Fondo de vídeo */
 #videoFondo {
   position: fixed;
@@ -5,83 +19,88 @@
   left: 50%;
   min-width: 100%;
   min-height: 100%;
-  width: auto;
-  height: auto;
-  z-index: -1;
-  transform: translate(-50%, -50%);
   object-fit: cover;
+  transform: translate(-50%, -50%);
+  z-index: -1;
 }
 
-/* Estructura de las pantallas */
+/* Contenido encima del vídeo */
+#contenido {
+  position: relative;
+  z-index: 1;
+  padding: 40px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* Pantallas o secciones */
 .pantalla {
-  display: none;
+  display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   min-height: 100vh;
   padding: 40px;
-  box-sizing: border-box;
-  background-color: rgba(0, 0, 0, 0.6);
-  color: #fff;
   text-align: center;
+  background-color: rgba(0, 0, 0, 0.6);
+  margin-bottom: 20px;
   border-radius: 10px;
-  margin: auto;
-  max-width: 500px;
+  width: 100%;
+  max-width: 600px;
 }
 
-/* Pantalla visible */
-.pantalla.activa {
-  display: flex;
+/* Ocultar secciones */
+.oculto {
+  display: none;
+}
+
+/* Preguntas y texto */
+.pregunta {
+  font-size: 1.5rem;
+  margin-bottom: 20px;
+}
+
+.texto {
+  font-size: 1.2rem;
+  margin-bottom: 20px;
+}
+
+/* Encabezado */
+h2 {
+  font-size: 2rem;
+  margin-bottom: 20px;
 }
 
 /* Botones */
 .boton {
-  margin-top: 20px;
-  padding: 12px 24px;
+  padding: 14px 28px;
   font-size: 1.2rem;
-  background-color: #ffffff;
-  color: #000000;
-  border: 2px solid #000000;
+  color: #fff;
+  background-color: #111;
+  border: 2px solid #fff;
   border-radius: 8px;
   cursor: pointer;
   transition: background-color 0.3s ease;
+  margin-top: 10px;
 }
 
 .boton:hover {
-  background-color: #dddddd;
-}
-
-/* Títulos y texto */
-h2 {
-  margin-bottom: 10px;
-  font-size: 1.8rem;
-}
-
-.texto {
-  margin-bottom: 20px;
-  font-size: 1.2rem;
+  background-color: #333;
 }
 
 /* Imágenes */
 img {
   max-width: 100%;
   height: auto;
-  margin: 15px 0;
-  border-radius: 5px;
+  margin: 10px 0;
+  border-radius: 8px;
 }
 
-/* Contenedor general */
-#contenido {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-}
-
-/* Responsive para móvil */
+/* Responsive para móviles */
 @media screen and (max-width: 600px) {
   #videoFondo {
-    transform: translate(-40%, -50%) scale(1.2);
+    transform: translate(-70%, -50%) scale(1.5); /* mueve la luna al centro */
   }
 
   .pantalla {

@@ -7,46 +7,49 @@
 </head>
 <body>
 
+  <!-- Pantalla 1 -->
   <div id="pantalla1" class="pantalla">
     <p>¿Te denominas Marieta, Ratilla, Ninja, o María?</p>
     <button onclick="siguientePantalla('pantalla2')">Sí</button>
   </div>
 
+  <!-- Pantalla 2 -->
   <div id="pantalla2" class="pantalla oculto">
     <p>¿Estás viendo la Luna ahora mismo?</p>
     <button onclick="siguientePantalla('pantalla3')">Sí</button>
   </div>
 
+  <!-- Pantalla 3 -->
   <div id="pantalla3" class="pantalla oculto">
     <h2>Comencemos un momento</h2>
     <div class="texto">
       <p>
-        HOLAHOLAHOLAHOALHA... (escribe aquí el texto largo). Intercala fotos como estas:
+        HOLAHOLAHOLAHOLAHOALHA... (texto largo aquí).
       </p>
 
       <img src="foto01.jpg" alt="Foto 1">
-      <p>Texto que acompaña la imagen 1</p>
+      <p>Texto 1</p>
 
       <img src="foto02.jpg" alt="Foto 2">
-      <p>Texto que acompaña la imagen 2</p>
+      <p>Texto 2</p>
 
       <img src="foto03.jpg" alt="Foto 3">
-      <p>Texto que acompaña la imagen 3</p>
+      <p>Texto 3</p>
 
       <img src="foto04.jpg" alt="Foto 4">
-      <p>Texto que acompaña la imagen 4</p>
+      <p>Texto 4</p>
 
       <img src="foto05.jpg" alt="Foto 5">
-      <p>Texto que acompaña la imagen 5</p>
+      <p>Texto 5</p>
 
       <img src="foto06.jpg" alt="Foto 6">
-      <p>Texto que acompaña la imagen 6</p>
+      <p>Texto 6</p>
 
       <img src="foto07.jpg" alt="Foto 7">
-      <p>Texto que acompaña la imagen 7</p>
+      <p>Texto 7</p>
 
       <img src="foto08.jpg" alt="Foto 8">
-      <p>Texto que acompaña la imagen 8</p>
+      <p>Texto 8</p>
 
       <div class="final">
         <p>¿Quieres esto?</p>
@@ -58,5 +61,31 @@
     </div>
   </div>
 
+  <!-- Audio de fondo -->
   <audio autoplay loop>
-    <source src="fondo.mp3" type="audio/mpeg"
+    <source src="fondo.mp3" type="audio/mpeg">
+    Tu navegador no soporta audio.
+  </audio>
+
+  <!-- Lógica -->
+  <script>
+    function siguientePantalla(id) {
+      document.querySelectorAll('.pantalla').forEach(p => p.classList.add('oculto'));
+      document.getElementById(id).classList.remove('oculto');
+    }
+
+    function responder(respuesta) {
+      const divRespuesta = document.getElementById("respuesta");
+      if (respuesta === 'si') {
+        divRespuesta.innerHTML = "🎉 ¡Bienvenido! 🚀✨ (Aquí podrías poner animación)";
+      } else {
+        divRespuesta.innerHTML = "<h2>Ups, te has equivocado. Vuelve a pensarlo anda 😜</h2>";
+        setTimeout(() => {
+          location.reload(); // reinicia la página
+        }, 3000);
+      }
+    }
+  </script>
+
+</body>
+</html>

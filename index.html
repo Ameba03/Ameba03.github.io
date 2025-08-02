@@ -1,40 +1,58 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <title>Web Interactiva Luna</title>
-    <link rel="stylesheet" href="style.css" />
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Web Interactiva Luna</title>
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-    <!-- Vídeo de fondo -->
-    <video autoplay muted loop playsinline class="video-fondo">
-        <source src="luna.mp4" type="video/mp4">
-        Tu navegador no admite el vídeo HTML5.
-    </video>
+  <!-- 🎥 Vídeo de fondo -->
+  <video autoplay muted loop playsinline class="video-fondo">
+    <source src="luna.mp4" type="video/mp4" />
+    Tu navegador no admite el vídeo HTML5.
+  </video>
 
-    <!-- Contenido -->
-    <div id="contenido">
-        <div id="pantalla1" class="pantalla visible">
-            <p>¿Te denominas Marieta, Ratilla, Ninja, o María?</p>
-            <button onclick="siguientePantalla('pantalla2')">Sí</button>
-        </div>
-        <div id="pantalla2" class="pantalla oculto">
-            <p>¿Estás viendo la Luna ahora mismo?</p>
-            <button onclick="siguientePantalla('pantalla3')">Sí</button>
-        </div>
-        <div id="pantalla3" class="pantalla oculto">
-            <p>Conectemos un momento</p>
-            <img src="foto01.jpg" alt="Foto" />
-            <p>¿Eres tú la imagen?</p>
-            <button onclick="siguientePantalla('pantallaFinal')">Sí</button>
-            <button onclick="siguientePantalla('pantallaFinal')">No</button>
-        </div>
-        <div id="pantallaFinal" class="pantalla oculto">
-            <p>Gracias por participar.</p>
-        </div>
+  <!-- 🧠 Contenido principal -->
+  <div id="contenido">
+    <div class="pantalla visible" id="pantalla1">
+      <p>¿Te denominas Marieta, Ratilla, Ninja, o María?</p>
+      <button onclick="siguientePantalla('pantalla2')">Sí</button>
     </div>
 
-    <script src="script.js"></script>
+    <div class="pantalla oculto" id="pantalla2">
+      <p>¿Estás viendo la Luna ahora mismo?</p>
+      <button onclick="siguientePantalla('pantalla3')">Sí</button>
+    </div>
+
+    <div class="pantalla oculto" id="pantalla3">
+      <h2>Comencemos un momento</h2>
+      <p>HOLAHOLAHOLA… (texto largo aquí)</p>
+      <img src="foto01.jpg" alt="Foto">
+      <p>¿Quieres esto?</p>
+      <button onclick="siguientePantalla('pantallaFinal')">Sí</button>
+      <button onclick="siguientePantalla('pantallaFinal')">No</button>
+    </div>
+
+    <div class="pantalla oculto" id="pantallaFinal">
+      <h2>Gracias por participar 🌕</h2>
+    </div>
+  </div>
+
+  <script>
+    function siguientePantalla(id) {
+      const pantallas = document.querySelectorAll('.pantalla');
+      pantallas.forEach(p => {
+        p.classList.remove('visible');
+        p.classList.add('oculto');
+      });
+
+      const siguiente = document.getElementById(id);
+      if (siguiente) {
+        siguiente.classList.remove('oculto');
+        siguiente.classList.add('visible');
+      }
+    }
+  </script>
 </body>
 </html>

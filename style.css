@@ -1,4 +1,4 @@
-/* Fondo video */
+/* Fondo de vídeo */
 #videoFondo {
   position: fixed;
   top: 50%;
@@ -7,93 +7,96 @@
   min-height: 100%;
   width: auto;
   height: auto;
-  transform: translate(-50%, -50%);
   z-index: -1;
+  transform: translate(-50%, -50%);
   object-fit: cover;
 }
 
-/* Contenedor general */
-body, html {
-  margin: 0;
-  padding: 0;
-  height: 100%;
-  font-family: Arial, sans-serif;
+/* Estructura de las pantallas */
+.pantalla {
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  padding: 40px;
+  box-sizing: border-box;
+  background-color: rgba(0, 0, 0, 0.6);
+  color: #fff;
+  text-align: center;
+  border-radius: 10px;
+  margin: auto;
+  max-width: 500px;
 }
 
+/* Pantalla visible */
+.pantalla.activa {
+  display: flex;
+}
+
+/* Botones */
+.boton {
+  margin-top: 20px;
+  padding: 12px 24px;
+  font-size: 1.2rem;
+  background-color: #ffffff;
+  color: #000000;
+  border: 2px solid #000000;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.boton:hover {
+  background-color: #dddddd;
+}
+
+/* Títulos y texto */
+h2 {
+  margin-bottom: 10px;
+  font-size: 1.8rem;
+}
+
+.texto {
+  margin-bottom: 20px;
+  font-size: 1.2rem;
+}
+
+/* Imágenes */
+img {
+  max-width: 100%;
+  height: auto;
+  margin: 15px 0;
+  border-radius: 5px;
+}
+
+/* Contenedor general */
 #contenido {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  height: 100vh;
-  padding: 20px;
-  color: #fff;
-  text-align: center;
-  z-index: 2;
 }
 
-/* Pantallas */
-.pantalla {
-  display: none;
-  background: rgba(0, 0, 0, 0.7);
-  padding: 30px 20px;
-  border-radius: 12px;
-  max-width: 90%;
-  box-sizing: border-box;
-}
-
-.pantalla.activa {
-  display: block;
-}
-
-/* Tipografías */
-.pregunta {
-  font-size: 1.4rem;
-  margin-bottom: 20px;
-}
-
-h2 {
-  font-size: 1.6rem;
-  margin-bottom: 10px;
-}
-
-.texto {
-  font-size: 1.1rem;
-  margin: 15px 0;
-}
-
-/* Botones */
-.boton {
-  font-size: 1.2rem;
-  padding: 12px 24px;
-  background-color: #fff;
-  color: #000;
-  border: none;
-  border-radius: 8px;
-  cursor: pointer;
-  margin: 10px 5px;
-  transition: background 0.3s ease;
-}
-
-.boton:hover {
-  background-color: #ddd;
-}
-
-/* Imagen */
-img {
-  max-width: 100%;
-  border-radius: 10px;
-  margin-top: 15px;
-}
-
-/* Móviles */
+/* Responsive para móvil */
 @media screen and (max-width: 600px) {
-  .pregunta, .texto {
-    font-size: 1.2rem;
+  #videoFondo {
+    transform: translate(-40%, -50%) scale(1.2);
+  }
+
+  .pantalla {
+    padding: 40px 20px;
+  }
+
+  .pregunta,
+  .texto,
+  h2 {
+    font-size: 1.6rem;
   }
 
   .boton {
-    font-size: 1rem;
-    padding: 10px 20px;
+    font-size: 1.4rem;
+    padding: 16px 32px;
+    border-radius: 10px;
   }
 }

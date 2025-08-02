@@ -34,7 +34,44 @@
         <p>Conectemos un momento<br><strong>HOLAKEAKLUNA...</strong></p>
         <img src="foto01.jpg" alt="Patinete" />
         <p>¿Te suena la imagen? ¿Quién es este?</p>
-        <button onclick="finalizar()">➡️</button>
+        <button onclick="siguientePantalla('pantalla4')">➡️</button>
+      </div>
+    </div>
+
+    <div class="pantalla oculto" id="pantalla4">
+      <div class="card carta">
+        <h2>Para ti,</h2>
+        <p>
+          Este pequeño mensaje es un recordatorio de lo valiosa que eres. A veces, la vida se llena de ruido,
+          de caos, de prisas. Pero entre todo eso, hay luz. Tú.
+        </p>
+        <p>
+          Esta luna, este momento, y este mensaje son solo un guiño para que no olvides lo importante que eres para quienes te rodean.
+        </p>
+        <img src="foto01.jpg" alt="Recuerdo bonito" />
+        <button onclick="siguientePantalla('pantalla5')">Continuar</button>
+      </div>
+    </div>
+
+    <div class="pantalla oculto" id="pantalla5">
+      <div class="card">
+        <p>¿Este mensaje era para ti?</p>
+        <button onclick="respuestaFinal('si')">Sí</button>
+        <button onclick="respuestaFinal('no')">No</button>
+      </div>
+    </div>
+
+    <div class="pantalla oculto" id="pantalla6">
+      <div class="card animacion-cohetes">
+        <p>¡Sabía que sí! 🚀</p>
+        <div class="cohetes">🎇 🎆 ✨</div>
+      </div>
+    </div>
+
+    <div class="pantalla oculto" id="pantalla7">
+      <div class="card">
+        <p>¡Uyy, te has confundido! Dale otra vez, máquina.</p>
+        <button onclick="siguientePantalla('pantalla1')">Volver a empezar</button>
       </div>
     </div>
 

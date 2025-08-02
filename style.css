@@ -1,105 +1,15 @@
-/* 🎥 Fondo de video */
-.video-fondo {
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  min-width: 100%;
-  min-height: 100%;
-  transform: translate(-50%, -50%);
-  object-fit: cover;
-  z-index: -1;
-  pointer-events: none;
-  display: none;
-}
+function siguientePantalla(id) {
+  const pantallas = document.querySelectorAll('.pantalla');
+  pantallas.forEach(p => p.classList.remove('visible'));
+  pantallas.forEach(p => p.classList.add('oculto'));
 
-.desktop {
-  display: block;
-}
-
-.mobile {
-  display: none;
-}
-
-/* 📱 Pantalla y contenido */
-body, html {
-  margin: 0;
-  padding: 0;
-  height: 100%;
-  font-family: 'Arial', sans-serif;
-}
-
-#contenido {
-  position: relative;
-  z-index: 1;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-  min-height: 100vh;
-  text-align: center;
-  padding: 2rem;
-  color: white;
-}
-
-.pantalla {
-  display: none;
-  background-color: rgba(0, 0, 0, 0.7);
-  padding: 2rem;
-  border-radius: 10px;
-  max-width: 90%;
-}
-
-.visible {
-  display: block;
-}
-
-button {
-  margin-top: 1rem;
-  padding: 1rem 2rem;
-  font-size: 1.2rem;
-  border: none;
-  border-radius: 5px;
-  background-color: #fff;
-  color: #000;
-  cursor: pointer;
-}
-
-h2 {
-  margin-top: 0;
-  font-size: 2rem;
-}
-
-img {
-  max-width: 100%;
-  height: auto;
-  margin-top: 1rem;
-}
-
-/* 📱 Estilos móviles */
-@media screen and (max-width: 600px) {
-  .desktop {
-    display: none;
+  const siguiente = document.getElementById(id);
+  if (siguiente) {
+    siguiente.classList.remove('oculto');
+    siguiente.classList.add('visible');
   }
+}
 
-  .mobile {
-    display: block;
-    transform: translate(-70%, -50%) scale(1.5); /* Ajustar luna */
-  }
-
-  #contenido {
-    padding: 1rem;
-  }
-
-  .pantalla {
-    padding: 1rem;
-  }
-
-  button {
-    font-size: 1.4rem;
-    padding: 1.2rem 2.5rem;
-  }
-
-  p, h2 {
-    font-size: 1.3rem;
-  }
+function finalizar() {
+  siguientePantalla('pantallaFinal');
 }

@@ -7,13 +7,14 @@
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
+
   <!-- 🎥 Vídeo de fondo -->
-  <video autoplay muted loop playsinline class="video-fondo" id="fondoVideo">
+  <video autoplay muted loop playsinline class="video-fondo">
     <source src="luna.mp4" type="video/mp4" />
     Tu navegador no admite el vídeo HTML5.
   </video>
 
-  <!-- 🧠 Contenido principal -->
+  <!-- 📄 Contenido sobre el vídeo -->
   <div id="contenido">
     <div class="pantalla visible" id="pantalla1">
       <p>¿Te denominas Marieta, Ratilla, Ninja, o María?</p>
@@ -27,15 +28,15 @@
 
     <div class="pantalla oculto" id="pantalla3">
       <h2>Comencemos un momento</h2>
-      <p>Texto largo de ejemplo... (aquí irían tus textos e imágenes)</p>
-      <img src="foto01.jpg" alt="Foto">
+      <p>Aquí va el texto largo con imágenes intercaladas...</p>
+      <img src="foto01.jpg" alt="Foto de ejemplo" />
       <p>¿Quieres esto?</p>
       <button onclick="siguientePantalla('pantallaFinal')">Sí</button>
       <button onclick="siguientePantalla('pantallaFinal')">No</button>
     </div>
 
     <div class="pantalla oculto" id="pantallaFinal">
-      <h2>Gracias por participar 🌕</h2>
+      <h2>¡Gracias por participar! 🌕</h2>
     </div>
   </div>
 

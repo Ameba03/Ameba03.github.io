@@ -3,27 +3,28 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Web Interactiva Luna</title>
+  <title>Web Interactiva NFC</title>
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <!-- 🎥 Vídeos de fondo -->
+  <!-- Vídeo de fondo escritorio -->
   <video autoplay muted loop playsinline class="video-fondo desktop">
     <source src="fondo.mp4" type="video/mp4" />
     Tu navegador no soporta video HTML5.
   </video>
 
+  <!-- Vídeo de fondo móvil -->
   <video autoplay muted loop playsinline class="video-fondo mobile">
-    <source src="fondo-movil.mp4" type="video/mp4" />
+    <source src="fondo móvil (2).mp4" type="video/mp4" />
     Tu navegador no soporta video HTML5.
   </video>
 
-  <!-- 🎵 Audio de fondo -->
+  <!-- Audio de fondo -->
   <audio autoplay loop>
-    <source src="fondo.mp3" type="audio/mp3" />
+    <source src="fondo.mp3" type="audio/mpeg" />
   </audio>
 
-  <!-- 💬 Contenido interactivo -->
+  <!-- Contenido interactivo -->
   <div id="contenido">
     <!-- Pantalla 1 -->
     <div id="pantalla1" class="pantalla visible">
@@ -32,24 +33,26 @@
     </div>
 
     <!-- Pantalla 2 -->
-    <div id="pantalla2" class="pantalla">
+    <div id="pantalla2" class="pantalla oculto">
       <p>¿Estás viendo la Luna ahora mismo?</p>
       <button onclick="siguientePantalla('pantalla3')">Sí</button>
     </div>
 
     <!-- Pantalla 3 -->
-    <div id="pantalla3" class="pantalla">
+    <div id="pantalla3" class="pantalla oculto">
       <h2>Comencemos un momento</h2>
-      <p>HOLAHOLAHOLA... (texto largo)</p>
+      <p>
+        HOLAHOLAHOLA HOLAHOLAHOLA HOLAHOLAHOLA HOLAHOLAHOLA HOLAHOLAHOLA HOLAHOLAHOLA HOLAHOLAHOLA HOLAHOLAHOLA HOLAHOLAHOLA HOLAHOLAHOLA...
+      </p>
       <img src="foto01.jpg" alt="Foto 1" />
-      <p>¿Te da la imagen alguna cosa?</p>
-      <button onclick="siguientePantalla('pantalla4')">Sí</button>
+      <p>¿Esta es la imagen correcta?</p>
+      <button onclick="finalizar()">Sí</button>
     </div>
 
-    <!-- Pantalla 4 (Final) -->
-    <div id="pantalla4" class="pantalla">
-      <h2>Fin</h2>
-      <p>Gracias por participar 🌕</p>
+    <!-- Pantalla final -->
+    <div id="pantallaFinal" class="pantalla oculto">
+      <h2>Gracias por participar</h2>
+      <p>🌕 ¡Nos vemos pronto bajo la luna!</p>
     </div>
   </div>
 

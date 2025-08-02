@@ -1,14 +1,14 @@
-/* 🎥 Estilo del vídeo de fondo */
-.video-fondo {
+/* 🎥 Vídeo de fondo */
+#videoFondo {
   position: fixed;
   top: 0;
   left: 0;
   width: 100vw;
   height: 100vh;
-  object-fit: contain; /* No recorte ni zoom */
-  background-color: black;
+  object-fit: cover; /* 'cover' para que llene sin bordes */
   z-index: -1;
   pointer-events: none;
+  background-color: black;
 }
 
 /* 🧱 Reset general */
@@ -80,10 +80,6 @@ img {
 
 /* 📱 Estilos para móviles */
 @media (max-width: 768px) {
-  .pantalla {
-    padding: 1.5rem;
-  }
-
   button {
     font-size: 1.4rem;
     padding: 1rem 2.5rem;
@@ -93,7 +89,7 @@ img {
     font-size: 1.4rem;
   }
 
-  .video-fondo {
+  #videoFondo {
     object-fit: contain;
   }
 }

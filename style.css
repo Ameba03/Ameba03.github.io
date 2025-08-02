@@ -1,4 +1,4 @@
-/* 🎥 Fondo de video a pantalla completa */
+/* 🎥 Fondo de vídeo */
 #videoFondo {
   position: fixed;
   top: 0;
@@ -9,69 +9,78 @@
   z-index: -1;
 }
 
-/* 📦 Contenedor sobre el vídeo */
+/* 🧱 Contenedor principal */
 #contenido {
-  position: relative;
-  z-index: 1;
-  min-height: 100vh;
   display: flex;
-  flex-direction: column;
   justify-content: center;
   align-items: center;
-}
-
-/* 📄 Cada pantalla ocupa toda la altura visible */
-.pantalla {
-  min-height: 100vh;
-  max-width: 800px;
-  width: 90%;
-  background: rgba(0, 0, 0, 0.6); /* fondo semitransparente */
-  padding: 40px 20px;
-  border-radius: 12px;
-  color: white;
   text-align: center;
-  display: flex;
+  height: 100vh;
+  width: 100%;
   flex-direction: column;
-  justify-content: center;
+  color: white;
+  z-index: 1;
+  position: relative;
+  padding: 20px;
 }
 
-/* 🔘 Botones */
-button {
-  padding: 12px 24px;
-  margin-top: 20px;
-  background-color: #ffffff;
+/* Cada pantalla */
+.pantalla {
+  display: none;
+  background-color: rgba(0, 0, 0, 0.6);
+  padding: 40px;
+  border-radius: 15px;
+  max-width: 700px;
+  margin: auto;
+}
+
+/* Mostrar la activa */
+.pantalla.activa {
+  display: block;
+}
+
+/* Texto principal */
+.pregunta {
+  font-size: 1.8em;
+  margin-bottom: 30px;
+}
+
+/* Botones */
+.boton,
+.final button {
+  font-size: 1.2em;
+  padding: 12px 30px;
+  margin: 10px;
   border: none;
-  border-radius: 6px;
-  font-weight: bold;
-  font-size: 16px;
+  background-color: #fff;
+  color: #000;
+  border-radius: 8px;
   cursor: pointer;
   transition: background 0.3s;
 }
 
-button:hover {
+.boton:hover,
+.final button:hover {
   background-color: #ddd;
 }
 
-/* 🖼️ Imágenes dentro del texto */
-img {
+/* Texto largo y fotos */
+.texto {
+  font-size: 1.2em;
+  margin-top: 20px;
+  color: white;
+}
+
+.texto img {
   max-width: 100%;
-  border-radius: 8px;
-  margin: 20px 0;
+  height: auto;
+  margin-top: 20px;
+  border-radius: 10px;
 }
 
-/* Texto acompañante */
-.texto p {
-  margin: 12px 0;
-  font-size: 18px;
-  line-height: 1.6;
-}
-
-/* Resultado final */
-.final {
-  margin-top: 30px;
-}
-
-/* Escondido por defecto */
-.oculto {
-  display: none;
+.respuesta {
+  margin-top: 20px;
+  font-size: 1.5em;
+  font-weight: bold;
+  color: #ffe600;
 }

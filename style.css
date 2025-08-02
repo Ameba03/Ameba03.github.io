@@ -1,44 +1,33 @@
 body {
   font-family: Arial, sans-serif;
-  background-color: #f2f2f2;
-  margin: 0;
-  padding: 20px;
   text-align: center;
+  background-color: #f9f9f9;
+  padding: 30px;
 }
 
 .pantalla {
   display: none;
 }
 
-.pantalla:not(.oculto) {
+.pantalla.activa {
   display: block;
 }
 
 img {
-  width: 80%;
-  max-width: 500px;
+  max-width: 80%;
   margin: 20px 0;
 }
 
 button {
-  font-size: 18px;
   padding: 10px 20px;
-  margin: 20px 10px;
+  font-size: 16px;
+  margin: 10px;
   cursor: pointer;
 }
 
-#respuesta {
-  margin-top: 30px;
-  font-size: 22px;
+.respuesta {
   font-weight: bold;
-}
-
-.cohete {
-  animation: boom 0.5s ease-in-out infinite;
-}
-
-@keyframes boom {
-  0% { transform: scale(1); color: red; }
-  50% { transform: scale(1.5); color: orange; }
-  100% { transform: scale(1); color: yellow; }
+  font-size: 20px;
+  margin-top: 30px;
+  color: darkblue;
 }

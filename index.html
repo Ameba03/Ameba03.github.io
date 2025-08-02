@@ -21,48 +21,25 @@
 
   <!-- 🧱 Contenido sobre el fondo -->
   <div id="contenido">
-    
-    <!-- Pantalla 1 -->
-    <div id="pantalla1" class="pantalla">
-      <p>¿Te denominas Marieta, Ratilla, Ninja, o María?</p>
-      <button onclick="siguientePantalla('pantalla2')">Sí</button>
+
+    <div id="pantalla1" class="pantalla activa">
+      <p class="pregunta">¿Te denominas Marieta, Ratilla, Ninja, o María?</p>
+      <button class="boton" onclick="siguientePantalla('pantalla2')">Sí</button>
     </div>
 
-    <!-- Pantalla 2 -->
-    <div id="pantalla2" class="pantalla oculto">
-      <p>¿Estás viendo la Luna ahora mismo?</p>
-      <button onclick="siguientePantalla('pantalla3')">Sí</button>
+    <div id="pantalla2" class="pantalla">
+      <p class="pregunta">¿Estás viendo la Luna ahora mismo?</p>
+      <button class="boton" onclick="siguientePantalla('pantalla3')">Sí</button>
     </div>
 
-    <!-- Pantalla 3 -->
-    <div id="pantalla3" class="pantalla oculto">
+    <div id="pantalla3" class="pantalla">
       <h2>Comencemos un momento</h2>
       <div class="texto">
-        <p>HOLAHOLAHOLA... (aquí va el texto largo)</p>
+        <p>HOLAHOLAHOLA... (texto largo)</p>
 
+        <!-- Puedes añadir más fotos aquí -->
         <img src="foto01.jpg" alt="Foto 1" />
-        <p>Texto que acompaña la imagen 1</p>
-
-        <img src="foto02.jpg" alt="Foto 2" />
-        <p>Texto que acompaña la imagen 2</p>
-
-        <img src="foto03.jpg" alt="Foto 3" />
-        <p>Texto que acompaña la imagen 3</p>
-
-        <img src="foto04.jpg" alt="Foto 4" />
-        <p>Texto que acompaña la imagen 4</p>
-
-        <img src="foto05.jpg" alt="Foto 5" />
-        <p>Texto que acompaña la imagen 5</p>
-
-        <img src="foto06.jpg" alt="Foto 6" />
-        <p>Texto que acompaña la imagen 6</p>
-
-        <img src="foto07.jpg" alt="Foto 7" />
-        <p>Texto que acompaña la imagen 7</p>
-
-        <img src="foto08.jpg" alt="Foto 8" />
-        <p>Texto que acompaña la imagen 8</p>
+        <p>Texto de la imagen</p>
 
         <!-- Pregunta final -->
         <div class="final">
@@ -71,26 +48,32 @@
           <button onclick="responder('no')">No</button>
         </div>
 
-        <!-- Resultado respuesta -->
         <div id="respuesta" class="respuesta"></div>
       </div>
     </div>
+
   </div>
 
-  <!-- JS -->
   <script>
     function siguientePantalla(id) {
-      const pantallas = document.querySelectorAll('.pantalla');
-      pantallas.forEach(p => p.classList.add('oculto'));
-      document.getElementById(id).classList.remove('oculto');
+      // Oculta todas las pantallas
+      document.querySelectorAll('.pantalla').forEach(p => {
+        p.classList.remove('activa');
+      });
+
+      // Muestra la siguiente
+      const siguiente = document.getElementById(id);
+      if (siguiente) {
+        siguiente.classList.add('activa');
+      }
     }
 
     function responder(respuesta) {
       const divRespuesta = document.getElementById('respuesta');
       if (respuesta === 'si') {
-        divRespuesta.innerHTML = '🚀✨🎉 ¡BOOOOM! Bienvenido al viaje intergaláctico 🎉✨🚀';
+        divRespuesta.innerHTML = '🚀✨🎉 ¡BOOM! Bienvenida al viaje 🎉✨🚀';
       } else {
-        divRespuesta.innerHTML = '<h2>Uuups... te has equivocado 😅 vuelve a pensarlo anda.</h2>';
+        divRespuesta.innerHTML = '<h2>Uuups... ¡piénsalo mejor! 😅</h2>';
         setTimeout(() => {
           siguientePantalla('pantalla1');
         }, 3000);

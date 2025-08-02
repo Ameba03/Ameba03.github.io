@@ -7,21 +7,21 @@
 </head>
 <body>
 
-  <!-- 🎥 VIDEO DE FONDO -->
+  <!-- 🎥 Vídeo de fondo -->
   <video autoplay muted loop id="videoFondo">
-    <source src="fondo.mp4" type="video/mp4" />
-    Tu navegador no soporta videos HTML5.
+    <source src="fondo.mp4" type="video/mp4">
+    Tu navegador no soporta video HTML5.
   </video>
 
-  <!-- 🔊 AUDIO DE FONDO -->
+  <!-- 🔊 Audio de fondo -->
   <audio autoplay loop>
-    <source src="fondo.mp3" type="audio/mpeg" />
+    <source src="fondo.mp3" type="audio/mpeg">
     Tu navegador no soporta audio.
   </audio>
 
-  <!-- 📦 CONTENIDO ENCAPSULADO SOBRE EL VIDEO -->
+  <!-- 🧱 Contenido sobre el fondo -->
   <div id="contenido">
-
+    
     <!-- Pantalla 1 -->
     <div id="pantalla1" class="pantalla">
       <p>¿Te denominas Marieta, Ratilla, Ninja, o María?</p>
@@ -34,48 +34,69 @@
       <button onclick="siguientePantalla('pantalla3')">Sí</button>
     </div>
 
-    <!-- Pantalla 3: contenido completo -->
+    <!-- Pantalla 3 -->
     <div id="pantalla3" class="pantalla oculto">
       <h2>Comencemos un momento</h2>
       <div class="texto">
-        <p>HOLAHOLAHOLA... (texto largo)</p>
+        <p>HOLAHOLAHOLA... (aquí va el texto largo)</p>
 
         <img src="foto01.jpg" alt="Foto 1" />
-        <p>Texto imagen 1</p>
+        <p>Texto que acompaña la imagen 1</p>
 
         <img src="foto02.jpg" alt="Foto 2" />
-        <p>Texto imagen 2</p>
+        <p>Texto que acompaña la imagen 2</p>
 
         <img src="foto03.jpg" alt="Foto 3" />
-        <p>Texto imagen 3</p>
+        <p>Texto que acompaña la imagen 3</p>
 
         <img src="foto04.jpg" alt="Foto 4" />
-        <p>Texto imagen 4</p>
+        <p>Texto que acompaña la imagen 4</p>
 
         <img src="foto05.jpg" alt="Foto 5" />
-        <p>Texto imagen 5</p>
+        <p>Texto que acompaña la imagen 5</p>
 
         <img src="foto06.jpg" alt="Foto 6" />
-        <p>Texto imagen 6</p>
+        <p>Texto que acompaña la imagen 6</p>
 
         <img src="foto07.jpg" alt="Foto 7" />
-        <p>Texto imagen 7</p>
+        <p>Texto que acompaña la imagen 7</p>
 
         <img src="foto08.jpg" alt="Foto 8" />
-        <p>Texto imagen 8</p>
+        <p>Texto que acompaña la imagen 8</p>
 
+        <!-- Pregunta final -->
         <div class="final">
           <p>¿Quieres esto?</p>
           <button onclick="responder('si')">Sí</button>
           <button onclick="responder('no')">No</button>
         </div>
 
+        <!-- Resultado respuesta -->
         <div id="respuesta" class="respuesta"></div>
       </div>
     </div>
-
   </div>
 
-  <script src="script.js"></script>
+  <!-- JS -->
+  <script>
+    function siguientePantalla(id) {
+      const pantallas = document.querySelectorAll('.pantalla');
+      pantallas.forEach(p => p.classList.add('oculto'));
+      document.getElementById(id).classList.remove('oculto');
+    }
+
+    function responder(respuesta) {
+      const divRespuesta = document.getElementById('respuesta');
+      if (respuesta === 'si') {
+        divRespuesta.innerHTML = '🚀✨🎉 ¡BOOOOM! Bienvenido al viaje intergaláctico 🎉✨🚀';
+      } else {
+        divRespuesta.innerHTML = '<h2>Uuups... te has equivocado 😅 vuelve a pensarlo anda.</h2>';
+        setTimeout(() => {
+          siguientePantalla('pantalla1');
+        }, 3000);
+      }
+    }
+  </script>
+
 </body>
 </html>

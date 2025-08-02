@@ -3,40 +3,50 @@
 <head>
   <meta charset="UTF-8">
   <title>Web Interactiva NFC</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      text-align: center;
-      background-color: #f0f0f0;
-      padding: 30px;
-    }
-    .pantalla {
-      display: none;
-    }
-    .activa {
-      display: block;
-    }
-    img {
-      max-width: 80%;
-      margin: 20px 0;
-    }
-    button {
-      padding: 10px 20px;
-      font-size: 16px;
-      margin: 10px;
-      cursor: pointer;
-    }
-    .respuesta {
-      font-weight: bold;
-      font-size: 20px;
-      margin-top: 30px;
-      color: darkblue;
-    }
-  </style>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
   <!-- Pantalla 1 -->
   <div id="pantalla1" class="pantalla activa">
     <p>¿Te denominas Marieta, Ratilla, Ninja, o María?</p>
-    <button onclick="siguientePantalla(
+    <button onclick="siguientePantalla('pantalla2')">Sí</button>
+  </div>
+
+  <!-- Pantalla 2 -->
+  <div id="pantalla2" class="pantalla">
+    <p>¿Estás viendo la Luna ahora mismo?</p>
+    <button onclick="siguientePantalla('pantalla3')">Sí</button>
+  </div>
+
+  <!-- Pantalla 3 -->
+  <div id="pantalla3" class="pantalla">
+    <h2>Comencemos un momento</h2>
+    <p>HOLAHOLAHOLA... (texto largo)</p>
+
+    <img src="foto01.jpg" alt="Foto 1">
+    <p>Texto 1</p>
+
+    <img src="foto02.jpg" alt="Foto 2">
+    <p>Texto 2</p>
+
+    <!-- Agrega más imágenes hasta foto08.jpg si las tienes -->
+
+    <div>
+      <p>¿Quieres esto?</p>
+      <button onclick="responder('si')">Sí</button>
+      <button onclick="responder('no')">No</button>
+    </div>
+
+    <div id="respuesta" class="respuesta"></div>
+  </div>
+
+  <!-- Audio -->
+  <audio autoplay loop>
+    <source src="fondo.mp3" type="audio/mpeg">
+    Tu navegador no soporta audio.
+  </audio>
+
+  <script src="script.js"></script>
+</body>
+</html>

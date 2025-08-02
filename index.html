@@ -2,60 +2,57 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Web Interactiva NFC</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Web Interactiva Luna</title>
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
+  <!-- 🎥 Vídeos de fondo -->
+  <video autoplay muted loop playsinline class="video-fondo desktop">
+    <source src="fondo.mp4" type="video/mp4" />
+    Tu navegador no soporta video HTML5.
+  </video>
 
-  <!-- 🎥 Fondo de vídeo -->
-  <div class="video-container">
-<video autoplay muted loop playsinline class="video-fondo mobile">
-  <source src="fondo-movil.mp4" type="video/mp4" />
-</video>
+  <video autoplay muted loop playsinline class="video-fondo mobile">
+    <source src="fondo-movil.mp4" type="video/mp4" />
+    Tu navegador no soporta video HTML5.
+  </video>
 
- <video autoplay muted loop playsinline class="video-fondo mobile">
-  <source src="fondo-movil.mp4" type="video/mp4" />
-</video>
-
-    </video>
-  </div>
-
-  <!-- 🎧 Sonido de fondo (opcional) -->
+  <!-- 🎵 Audio de fondo -->
   <audio autoplay loop>
-    <source src="fondo.mp3" type="audio/mpeg">
-    Tu navegador no soporta audio.
+    <source src="fondo.mp3" type="audio/mp3" />
   </audio>
 
-  <!-- 📱 Contenido -->
+  <!-- 💬 Contenido interactivo -->
   <div id="contenido">
+    <!-- Pantalla 1 -->
     <div id="pantalla1" class="pantalla visible">
       <p>¿Te denominas Marieta, Ratilla, Ninja, o María?</p>
       <button onclick="siguientePantalla('pantalla2')">Sí</button>
     </div>
 
+    <!-- Pantalla 2 -->
     <div id="pantalla2" class="pantalla">
       <p>¿Estás viendo la Luna ahora mismo?</p>
       <button onclick="siguientePantalla('pantalla3')">Sí</button>
     </div>
 
+    <!-- Pantalla 3 -->
     <div id="pantalla3" class="pantalla">
       <h2>Comencemos un momento</h2>
       <p>HOLAHOLAHOLA... (texto largo)</p>
-      <img src="foto01.jpg" alt="Foto 1">
-      <p>¿Qué es la imagen?</p>
-      <button onclick="siguientePantalla('pantalla4')">A</button>
-      <button onclick="siguientePantalla('pantalla4')">B</button>
+      <img src="foto01.jpg" alt="Foto 1" />
+      <p>¿Te da la imagen alguna cosa?</p>
+      <button onclick="siguientePantalla('pantalla4')">Sí</button>
     </div>
 
+    <!-- Pantalla 4 (Final) -->
     <div id="pantalla4" class="pantalla">
-      <h2>Gracias por participar</h2>
-      <p>Fin del formulario. Puedes cerrar esta ventana.</p>
+      <h2>Fin</h2>
+      <p>Gracias por participar 🌕</p>
     </div>
   </div>
 
   <script src="script.js"></script>
 </body>
 </html>
-
-

@@ -8,44 +8,42 @@
 </head>
 <body>
 
-  <!-- 🎥 Video de fondo -->
-  <video autoplay muted loop id="videoFondo">
-    <source src="fondo.mp4" type="video/mp4">
-    Tu navegador no soporta el video HTML5.
-  </video>
+  <!-- 🎥 Fondo de video -->
+  <div class="video-container">
+    <video autoplay muted loop playsinline id="videoFondo">
+      <source src="fondo.mp4" type="video/mp4">
+      Tu navegador no soporta video HTML5.
+    </video>
+  </div>
 
-  <!-- 🧠 Contenido interactivo -->
+  <!-- 🔊 Audio opcional -->
+  <!-- <audio autoplay loop>
+    <source src="fondo.mp3" type="audio/mpeg">
+  </audio> -->
+
+  <!-- 🧱 Contenido por pantallas -->
   <div id="contenido">
 
-    <!-- Pantalla 1 -->
     <div id="pantalla1" class="pantalla activa">
       <p class="pregunta">¿Te denominas Marieta, Ratilla, Ninja, o María?</p>
       <button class="boton" onclick="siguientePantalla('pantalla2')">Sí</button>
     </div>
 
-    <!-- Pantalla 2 -->
-    <div id="pantalla2" class="pantalla">
+    <div id="pantalla2" class="pantalla oculto">
       <p class="pregunta">¿Estás viendo la Luna ahora mismo?</p>
       <button class="boton" onclick="siguientePantalla('pantalla3')">Sí</button>
     </div>
 
-    <!-- Pantalla 3 -->
-    <div id="pantalla3" class="pantalla">
+    <div id="pantalla3" class="pantalla oculto">
       <h2>Comencemos un momento</h2>
-      <p class="texto">HOLA HOLA HOLA... (imagina aquí un texto largo o poema)</p>
+      <p class="texto">Aquí va tu texto largo con imágenes y cosas que contar...</p>
+      <img src="foto01.jpg" alt="Foto 1">
+      <p class="texto">Texto bajo la imagen</p>
       <button class="boton" onclick="siguientePantalla('pantalla4')">Continuar</button>
     </div>
 
-    <!-- Pantalla 4 -->
-    <div id="pantalla4" class="pantalla">
-      <img src="foto01.jpg" alt="Foto 1">
-      <p class="texto">Texto de la imagen</p>
-      <button class="boton" onclick="siguientePantalla('pantalla5')">Seguir</button>
-    </div>
-
-    <!-- Pantalla 5 -->
-    <div id="pantalla5" class="pantalla">
-      <p class="pregunta">¿Estás lista para lo que viene?</p>
+    <div id="pantalla4" class="pantalla oculto">
+      <p class="pregunta">¿Quieres esto?</p>
       <button class="boton" onclick="responder('si')">Sí</button>
       <button class="boton" onclick="responder('no')">No</button>
       <div id="respuesta" class="respuesta"></div>

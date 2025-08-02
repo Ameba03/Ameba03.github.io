@@ -1,80 +1,86 @@
-/* Fondo de vídeo único */
+/* Fondo de video */
 .video-fondo {
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  min-width: 100%;
-  min-height: 100%;
-  transform: translate(-50%, -50%);
-  object-fit: cover;
-  z-index: -1;
-  pointer-events: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    min-width: 100%;
+    min-height: 100%;
+    transform: translate(-50%, -50%);
+    object-fit: cover;
+    z-index: -1;
+    pointer-events: none;
 }
 
-/* Ajuste de vídeo para móviles (desplazamiento hacia la derecha) */
-@media (max-width: 768px) {
-  .video-fondo {
-    object-position: 70% center;
-    transform: scale(1.25) translate(-35%, -50%);
-  }
-}
-
+/* Estilos generales */
 body, html {
-  margin: 0;
-  padding: 0;
-  height: 100%;
-  font-family: Arial, sans-serif;
-  overflow-x: hidden;
-  color: white;
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    font-family: 'Arial', sans-serif;
+    background-color: black;
+    overflow-x: hidden;
 }
 
 #contenido {
-  position: relative;
-  z-index: 1;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-  text-align: center;
-  padding: 20px;
-  min-height: 100vh;
+    position: relative;
+    z-index: 1;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 1rem;
+    text-align: center;
 }
 
 .pantalla {
-  background: rgba(0, 0, 0, 0.75);
-  border-radius: 12px;
-  padding: 30px 20px;
-  margin-bottom: 20px;
-  max-width: 90%;
-  width: 100%;
-  transition: all 0.3s ease-in-out;
+    display: none;
+    background-color: rgba(0, 0, 0, 0.7);
+    padding: 2rem;
+    border-radius: 12px;
+    max-width: 90%;
+    color: white;
+}
+
+.pantalla.visible {
+    display: block;
 }
 
 button {
-  margin-top: 15px;
-  padding: 18px 32px;
-  font-size: 22px;
-  border: none;
-  border-radius: 8px;
-  background-color: white;
-  color: black;
-  cursor: pointer;
+    margin-top: 1rem;
+    padding: 1rem 2rem;
+    font-size: 1.2rem;
+    border: none;
+    border-radius: 6px;
+    background-color: white;
+    color: black;
+    cursor: pointer;
+    transition: transform 0.2s ease;
 }
 
 button:hover {
-  background-color: #e0e0e0;
+    transform: scale(1.05);
 }
 
-img {
-  max-width: 100%;
-  border-radius: 8px;
-  margin: 10px 0;
+img.imagen {
+    width: 100%;
+    max-width: 250px;
+    margin-top: 1rem;
+    border-radius: 8px;
 }
 
-.oculto {
-  display: none;
-}
+/* Ajustes móviles */
+@media (max-width: 768px) {
+    .video-fondo {
+        transform: translate(-75%, -50%) scale(1.3); /* mueve la luna a centro visual */
+    }
 
-.visible {
-  display: block;
+    .pantalla {
+        font-size: 1.2rem;
+    }
+
+    button {
+        font-size: 1.4rem;
+        padding: 1.2rem 2.5rem;
+    }
 }

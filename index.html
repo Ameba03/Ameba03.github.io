@@ -1,78 +1,81 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
   <title>Web Interactiva NFC</title>
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
 
-  <!-- 🎥 Video de fondo -->
+  <!-- 🎥 VIDEO DE FONDO -->
   <video autoplay muted loop id="videoFondo">
-    <source src="fondo.mp4" type="video/mp4">
+    <source src="fondo.mp4" type="video/mp4" />
     Tu navegador no soporta videos HTML5.
   </video>
 
-  <!-- 🔊 Audio de fondo -->
+  <!-- 🔊 AUDIO DE FONDO -->
   <audio autoplay loop>
-    <source src="fondo.mp3" type="audio/mpeg">
+    <source src="fondo.mp3" type="audio/mpeg" />
     Tu navegador no soporta audio.
   </audio>
 
-  <!-- 🧠 Preguntas interactivas -->
-  <div id="pantalla1" class="pantalla">
-    <p>¿Te denominas Marieta, Ratilla, Ninja, o María?</p>
-    <button onclick="siguientePantalla('pantalla2')">Sí</button>
-  </div>
+  <!-- 📦 CONTENIDO ENCAPSULADO SOBRE EL VIDEO -->
+  <div id="contenido">
 
-  <div id="pantalla2" class="pantalla oculto">
-    <p>¿Estás viendo la Luna ahora mismo?</p>
-    <button onclick="siguientePantalla('pantalla3')">Sí</button>
-  </div>
-
-  <!-- 📝 Contenido principal -->
-  <div id="pantalla3" class="pantalla oculto">
-    <h2>Comencemos un momento</h2>
-    <div class="texto">
-      <p>HOLAHOLAHOLA... (texto largo con imágenes)</p>
-
-      <!-- 🖼️ Imágenes intercaladas -->
-      <img src="foto01.jpg" alt="Foto 1">
-      <p>Texto que acompaña la imagen 1</p>
-
-      <img src="foto02.jpg" alt="Foto 2">
-      <p>Texto que acompaña la imagen 2</p>
-
-      <img src="foto03.jpg" alt="Foto 3">
-      <p>Texto que acompaña la imagen 3</p>
-
-      <img src="foto04.jpg" alt="Foto 4">
-      <p>Texto que acompaña la imagen 4</p>
-
-      <img src="foto05.jpg" alt="Foto 5">
-      <p>Texto que acompaña la imagen 5</p>
-
-      <img src="foto06.jpg" alt="Foto 6">
-      <p>Texto que acompaña la imagen 6</p>
-
-      <img src="foto07.jpg" alt="Foto 7">
-      <p>Texto que acompaña la imagen 7</p>
-
-      <img src="foto08.jpg" alt="Foto 8">
-      <p>Texto que acompaña la imagen 8</p>
-
-      <!-- ❓ Pregunta final -->
-      <div class="final">
-        <p>¿Quieres esto?</p>
-        <button onclick="responder('si')">Sí</button>
-        <button onclick="responder('no')">No</button>
-      </div>
-
-      <div id="respuesta" class="respuesta"></div>
+    <!-- Pantalla 1 -->
+    <div id="pantalla1" class="pantalla">
+      <p>¿Te denominas Marieta, Ratilla, Ninja, o María?</p>
+      <button onclick="siguientePantalla('pantalla2')">Sí</button>
     </div>
+
+    <!-- Pantalla 2 -->
+    <div id="pantalla2" class="pantalla oculto">
+      <p>¿Estás viendo la Luna ahora mismo?</p>
+      <button onclick="siguientePantalla('pantalla3')">Sí</button>
+    </div>
+
+    <!-- Pantalla 3: contenido completo -->
+    <div id="pantalla3" class="pantalla oculto">
+      <h2>Comencemos un momento</h2>
+      <div class="texto">
+        <p>HOLAHOLAHOLA... (texto largo)</p>
+
+        <img src="foto01.jpg" alt="Foto 1" />
+        <p>Texto imagen 1</p>
+
+        <img src="foto02.jpg" alt="Foto 2" />
+        <p>Texto imagen 2</p>
+
+        <img src="foto03.jpg" alt="Foto 3" />
+        <p>Texto imagen 3</p>
+
+        <img src="foto04.jpg" alt="Foto 4" />
+        <p>Texto imagen 4</p>
+
+        <img src="foto05.jpg" alt="Foto 5" />
+        <p>Texto imagen 5</p>
+
+        <img src="foto06.jpg" alt="Foto 6" />
+        <p>Texto imagen 6</p>
+
+        <img src="foto07.jpg" alt="Foto 7" />
+        <p>Texto imagen 7</p>
+
+        <img src="foto08.jpg" alt="Foto 8" />
+        <p>Texto imagen 8</p>
+
+        <div class="final">
+          <p>¿Quieres esto?</p>
+          <button onclick="responder('si')">Sí</button>
+          <button onclick="responder('no')">No</button>
+        </div>
+
+        <div id="respuesta" class="respuesta"></div>
+      </div>
+    </div>
+
   </div>
 
-  <!-- ⚙️ Script -->
   <script src="script.js"></script>
 </body>
 </html>

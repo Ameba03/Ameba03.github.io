@@ -8,13 +8,13 @@
 </head>
 <body>
 
-  <!-- 🎥 Fondo de vídeo -->
+  <!-- 🎥 Fondo de vídeo móvil -->
   <video autoplay muted loop playsinline id="videoFondo">
     <source src="luna.mp4" type="video/mp4" />
     Tu navegador no admite vídeo HTML5.
   </video>
 
-  <!-- 📄 Contenido centrado sobre el fondo -->
+  <!-- 📄 Contenido encima del vídeo -->
   <div id="contenido">
     <div class="pantalla visible" id="pantalla1">
       <p>¿Te denominas Marieta, Ratilla, Ninja, o María?</p>
@@ -28,8 +28,7 @@
 
     <div class="pantalla oculto" id="pantalla3">
       <h2>Conectemos un momento</h2>
-      <p>Aquí podría ir una imagen o contenido especial</p>
-      <img src="foto01.jpg" alt="Ejemplo" />
+      <img src="foto01.jpg" alt="Foto" />
       <p>¿Quieres esto?</p>
       <button onclick="siguientePantalla('pantallaFinal')">Sí</button>
       <button onclick="siguientePantalla('pantallaFinal')">No</button>

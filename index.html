@@ -3,6 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <title>Web Interactiva NFC</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -10,17 +11,12 @@
   <!-- 🎥 Video de fondo -->
   <video autoplay muted loop id="videoFondo">
     <source src="fondo.mp4" type="video/mp4">
-    Tu navegador no soporta videos HTML5.
+    Tu navegador no soporta el video HTML5.
   </video>
 
-  <!-- 🔊 Audio opcional (puedes descomentar si quieres sonido de fondo) -->
-  <!-- <audio autoplay loop>
-    <source src="fondo.mp3" type="audio/mp3">
-  </audio> -->
-
-  <!-- 📄 Contenido por pantallas -->
+  <!-- 🧠 Contenido interactivo -->
   <div id="contenido">
-    
+
     <!-- Pantalla 1 -->
     <div id="pantalla1" class="pantalla activa">
       <p class="pregunta">¿Te denominas Marieta, Ratilla, Ninja, o María?</p>
@@ -36,27 +32,23 @@
     <!-- Pantalla 3 -->
     <div id="pantalla3" class="pantalla">
       <h2>Comencemos un momento</h2>
-      <div class="texto">
-        HOLA HOLA HOLA... (imagina aquí un texto largo o poema)
-      </div>
+      <p class="texto">HOLA HOLA HOLA... (imagina aquí un texto largo o poema)</p>
       <button class="boton" onclick="siguientePantalla('pantalla4')">Continuar</button>
     </div>
 
-    <!-- Pantalla 4: imágenes -->
+    <!-- Pantalla 4 -->
     <div id="pantalla4" class="pantalla">
-      <div class="texto">
-        <img src="foto01.jpg" alt="Foto 1">
-        <p>Texto debajo de la imagen...</p>
-      </div>
+      <img src="foto01.jpg" alt="Foto 1">
+      <p class="texto">Texto de la imagen</p>
       <button class="boton" onclick="siguientePantalla('pantalla5')">Seguir</button>
     </div>
 
-    <!-- Pantalla 5: pregunta final -->
-    <div id="pantalla5" class="pantalla final">
+    <!-- Pantalla 5 -->
+    <div id="pantalla5" class="pantalla">
       <p class="pregunta">¿Estás lista para lo que viene?</p>
-      <button onclick="responder('si')">Sí</button>
-      <button onclick="responder('no')">No</button>
-      <div class="respuesta" id="respuesta"></div>
+      <button class="boton" onclick="responder('si')">Sí</button>
+      <button class="boton" onclick="responder('no')">No</button>
+      <div id="respuesta" class="respuesta"></div>
     </div>
 
   </div>

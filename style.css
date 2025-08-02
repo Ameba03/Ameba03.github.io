@@ -101,3 +101,32 @@ body, html {
 .oculto {
   display: none;
 }
+
+/* 📝 Carta personalizada */
+.carta h2 {
+  font-size: 1.5rem;
+  margin-bottom: 10px;
+}
+
+.carta p {
+  font-size: 1.1rem;
+  margin-bottom: 15px;
+}
+
+.carta img {
+  max-width: 100%;
+  border-radius: 8px;
+  margin: 15px 0;
+}
+
+/* 🎇 Animación cohetes */
+.cohetes {
+  font-size: 2.5rem;
+  margin-top: 20px;
+  animation: explotar 1s infinite alternate;
+}
+
+@keyframes explotar {
+  0% { transform: translateY(0); opacity: 1; }
+  100% { transform: translateY(-10px); opacity: 0.6; }
+}

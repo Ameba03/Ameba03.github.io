@@ -2,19 +2,19 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Web Interactiva Luna</title>
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
 
-  <!-- 🎥 Vídeo de fondo -->
+  <!-- 🎥 Fondo de vídeo -->
   <video autoplay muted loop playsinline id="videoFondo">
     <source src="luna.mp4" type="video/mp4" />
-    Tu navegador no admite el vídeo HTML5.
+    Tu navegador no admite vídeo HTML5.
   </video>
 
-  <!-- 📄 Contenido sobre el vídeo -->
+  <!-- 📄 Contenido centrado sobre el fondo -->
   <div id="contenido">
     <div class="pantalla visible" id="pantalla1">
       <p>¿Te denominas Marieta, Ratilla, Ninja, o María?</p>
@@ -27,16 +27,16 @@
     </div>
 
     <div class="pantalla oculto" id="pantalla3">
-      <h2>Comencemos un momento</h2>
-      <p>Aquí va el texto largo con imágenes intercaladas...</p>
-      <img src="foto01.jpg" alt="Foto de ejemplo" />
+      <h2>Conectemos un momento</h2>
+      <p>Aquí podría ir una imagen o contenido especial</p>
+      <img src="foto01.jpg" alt="Ejemplo" />
       <p>¿Quieres esto?</p>
       <button onclick="siguientePantalla('pantallaFinal')">Sí</button>
       <button onclick="siguientePantalla('pantallaFinal')">No</button>
     </div>
 
     <div class="pantalla oculto" id="pantallaFinal">
-      <h2>¡Gracias por participar! 🌕</h2>
+      <h2>¡Gracias por participar!</h2>
     </div>
   </div>
 

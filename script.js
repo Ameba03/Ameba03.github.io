@@ -11,3 +11,7 @@ function siguientePantalla(id) {
     siguiente.classList.add('visible');
   }
 }
+
+function finalizar() {
+  siguientePantalla('pantallaFinal');
+}

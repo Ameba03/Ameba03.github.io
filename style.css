@@ -1,32 +1,40 @@
-/* 🎥 Estilo del video de fondo */
-#videoFondo {
+/* 🌕 Contenedor del video */
+#videoContainer {
   position: fixed;
   top: 0;
   left: 0;
   width: 100vw;
   height: 100vh;
-  object-fit: cover;
+  overflow: hidden;
   z-index: -1;
-  background-color: black;
-  pointer-events: none;
+  background: black;
 }
 
-/* 🌍 Reset general */
+/* 🎥 Video fondo */
+#videoFondo {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  height: 100%;
+  width: auto;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+  background-color: black;
+}
+
+/* 🧱 Estructura base */
 html, body {
   margin: 0;
   padding: 0;
-  width: 100%;
   height: 100%;
   overflow: hidden;
   font-family: Arial, sans-serif;
   background: black;
 }
 
-/* 🧱 Contenedor principal */
+/* 📄 Contenido centrado */
 #contenido {
-  position: absolute;
-  top: 0;
-  left: 0;
+  position: relative;
   z-index: 1;
   width: 100%;
   height: 100%;
@@ -37,7 +45,7 @@ html, body {
   box-sizing: border-box;
 }
 
-/* 📦 Caja de cada pantalla */
+/* 🪟 Pantallas */
 .pantalla {
   display: none;
   flex-direction: column;
@@ -68,7 +76,6 @@ button {
   background-color: white;
   color: black;
   cursor: pointer;
-  transition: 0.3s;
 }
 
 button:hover {
@@ -85,10 +92,6 @@ img {
 
 /* 📱 Responsive */
 @media (max-width: 768px) {
-  .pantalla {
-    padding: 1.5rem;
-  }
-
   p, h2 {
     font-size: 1.3rem;
   }
@@ -98,6 +101,7 @@ img {
   }
 
   #videoFondo {
-    object-fit: cover;
+    height: 100%;
+    width: auto;
   }
 }

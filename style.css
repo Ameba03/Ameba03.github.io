@@ -1,4 +1,4 @@
-/* Estilos generales */
+/* Reset general */
 * {
   margin: 0;
   padding: 0;
@@ -7,115 +7,119 @@
 
 html, body {
   height: 100%;
-  font-family: 'Arial', sans-serif;
+  font-family: Arial, sans-serif;
   overflow-x: hidden;
-  color: #fff;
+  color: white;
+  background-color: black;
 }
 
-/* Fondo de vídeo */
-#videoFondo {
+/* 🎥 Fondo de vídeo */
+.video-container {
   position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  z-index: -1;
+  pointer-events: none; /* evita clic accidental en móviles */
+}
+
+#videoFondo {
+  position: absolute;
   top: 50%;
   left: 50%;
   min-width: 100%;
   min-height: 100%;
-  object-fit: cover;
   transform: translate(-50%, -50%);
-  z-index: -1;
+  object-fit: cover;
+  pointer-events: none; /* no se puede clicar ni pausar */
 }
 
-/* Contenido encima del vídeo */
+/* 📦 Contenido */
 #contenido {
   position: relative;
   z-index: 1;
-  padding: 40px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-/* Pantallas o secciones */
-.pantalla {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  padding: 40px 20px;
   min-height: 100vh;
-  padding: 40px;
   text-align: center;
-  background-color: rgba(0, 0, 0, 0.6);
-  margin-bottom: 20px;
+}
+
+/* 🔳 Pantallas */
+.pantalla {
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(0, 0, 0, 0.65);
+  padding: 40px 20px;
   border-radius: 10px;
   width: 100%;
   max-width: 600px;
 }
 
-/* Ocultar secciones */
-.oculto {
-  display: none;
+.pantalla.activa {
+  display: flex;
 }
 
-/* Preguntas y texto */
-.pregunta {
+/* 🧾 Textos */
+.pregunta, .texto, h2 {
   font-size: 1.5rem;
   margin-bottom: 20px;
 }
 
-.texto {
-  font-size: 1.2rem;
-  margin-bottom: 20px;
+.respuesta {
+  margin-top: 20px;
+  font-size: 1.4rem;
+  font-weight: bold;
+  color: #ffff66;
 }
 
-/* Encabezado */
-h2 {
-  font-size: 2rem;
-  margin-bottom: 20px;
-}
-
-/* Botones */
-.boton {
-  padding: 14px 28px;
-  font-size: 1.2rem;
-  color: #fff;
-  background-color: #111;
-  border: 2px solid #fff;
-  border-radius: 8px;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-  margin-top: 10px;
-}
-
-.boton:hover {
-  background-color: #333;
-}
-
-/* Imágenes */
+/* 📷 Imágenes */
 img {
   max-width: 100%;
   height: auto;
-  margin: 10px 0;
+  margin: 15px 0;
   border-radius: 8px;
 }
 
-/* Responsive para móviles */
+/* 🔘 Botones */
+.boton {
+  padding: 14px 28px;
+  font-size: 1.2rem;
+  background-color: #fff;
+  color: #000;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  margin: 10px;
+  transition: background 0.3s ease;
+}
+
+.boton:hover {
+  background-color: #eee;
+}
+
+/* 📱 Móviles */
 @media screen and (max-width: 600px) {
   #videoFondo {
-    transform: translate(-70%, -50%) scale(1.5); /* mueve la luna al centro */
+    transform: translate(-75%, -50%) scale(1.6); /* mueve y amplía más el vídeo */
   }
 
   .pantalla {
-    padding: 40px 20px;
+    padding: 30px 15px;
   }
 
-  .pregunta,
-  .texto,
-  h2 {
-    font-size: 1.6rem;
+  .pregunta, .texto, h2 {
+    font-size: 1.7rem;
   }
 
   .boton {
-    font-size: 1.4rem;
-    padding: 16px 32px;
-    border-radius: 10px;
+    font-size: 1.5rem;
+    padding: 18px 36px;
   }
 }

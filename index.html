@@ -8,7 +8,7 @@
 </head>
 <body>
   <!-- 🎥 Vídeo de fondo -->
-  <video autoplay muted loop playsinline class="video-fondo">
+  <video autoplay muted loop playsinline class="video-fondo" id="fondoVideo">
     <source src="luna.mp4" type="video/mp4" />
     Tu navegador no admite el vídeo HTML5.
   </video>
@@ -27,7 +27,7 @@
 
     <div class="pantalla oculto" id="pantalla3">
       <h2>Comencemos un momento</h2>
-      <p>HOLAHOLAHOLA… (texto largo aquí)</p>
+      <p>Texto largo de ejemplo... (aquí irían tus textos e imágenes)</p>
       <img src="foto01.jpg" alt="Foto">
       <p>¿Quieres esto?</p>
       <button onclick="siguientePantalla('pantallaFinal')">Sí</button>
@@ -39,20 +39,6 @@
     </div>
   </div>
 
-  <script>
-    function siguientePantalla(id) {
-      const pantallas = document.querySelectorAll('.pantalla');
-      pantallas.forEach(p => {
-        p.classList.remove('visible');
-        p.classList.add('oculto');
-      });
-
-      const siguiente = document.getElementById(id);
-      if (siguiente) {
-        siguiente.classList.remove('oculto');
-        siguiente.classList.add('visible');
-      }
-    }
-  </script>
+  <script src="script.js"></script>
 </body>
 </html>

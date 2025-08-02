@@ -7,35 +7,41 @@
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-
-  <!-- 🎥 Vídeo de fondo -->
+  <!-- 🎥 Video de fondo -->
   <video id="videoFondo" autoplay muted loop playsinline>
     <source src="luna.mp4" type="video/mp4" />
-    Tu navegador no admite el vídeo HTML5.
+    Tu navegador no admite el video HTML5.
   </video>
 
-  <!-- 🧾 Contenido encima del fondo -->
+  <!-- 📄 Contenido sobre el fondo -->
   <div id="contenido">
     <div class="pantalla visible" id="pantalla1">
-      <p>¿Te denominas Marieta, Ratilla, Ninja, o María?</p>
-      <button onclick="siguientePantalla('pantalla2')">Sí</button>
+      <div class="card">
+        <p>¿Te denominas Marieta, Ratilla, Ninja, o María?</p>
+        <button onclick="siguientePantalla('pantalla2')">Sí</button>
+      </div>
     </div>
 
     <div class="pantalla oculto" id="pantalla2">
-      <p>¿Estás viendo la Luna ahora mismo?</p>
-      <button onclick="siguientePantalla('pantalla3')">Sí</button>
+      <div class="card">
+        <p>¡Has visto la Luna esta noche?</p>
+        <button onclick="siguientePantalla('pantalla3')">Sí</button>
+      </div>
     </div>
 
     <div class="pantalla oculto" id="pantalla3">
-      <h2>Conectemos un momento</h2>
-      <img src="foto01.jpg" alt="Foto" />
-      <p>¿Quieres esto?</p>
-      <button onclick="siguientePantalla('pantallaFinal')">Sí</button>
-      <button onclick="siguientePantalla('pantallaFinal')">No</button>
+      <div class="card">
+        <p>Conectemos un momento<br><strong>HOLAKEAKLUNA...</strong></p>
+        <img src="foto01.jpg" alt="Patinete" />
+        <p>¿Te suena la imagen? ¿Quién es este?</p>
+        <button onclick="finalizar()">➡️</button>
+      </div>
     </div>
 
     <div class="pantalla oculto" id="pantallaFinal">
-      <h2>¡Gracias por participar!</h2>
+      <div class="card">
+        <p>FIN 🌕</p>
+      </div>
     </div>
   </div>
 

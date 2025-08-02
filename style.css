@@ -1,63 +1,56 @@
-/* Fondo */
-body, html {
-  margin: 0;
-  padding: 0;
-  height: 100%;
-  font-family: 'Arial', sans-serif;
-  color: white;
-  background-color: black;
-}
-
-video#videoFondo {
+/* Fondo de video */
+#videoFondo {
   position: fixed;
   top: 0;
   left: 0;
-  width: 100%;
-  height: 100%;
+  min-width: 100%;
+  min-height: 100%;
   object-fit: cover;
   z-index: -1;
 }
 
-/* Contenido */
-.pantalla {
-  min-height: 100vh;
+/* Contenedor general encima del video */
+#contenido {
+  position: relative;
+  z-index: 1;
   display: flex;
   flex-direction: column;
-  justify-content: center;
   align-items: center;
-  text-align: center;
-  padding: 40px 20px;
-  background-color: rgba(0, 0, 0, 0.6); /* fondo semitransparente */
+  justify-content: center;
   color: white;
+  padding: 2rem;
 }
 
-button {
-  margin-top: 15px;
-  padding: 10px 20px;
-  font-size: 16px;
-  cursor: pointer;
-  background-color: #ffffffaa;
-  border: none;
-  border-radius: 5px;
-  color: black;
-  transition: background-color 0.3s;
-}
-
-button:hover {
-  background-color: #fff;
-}
-
-img {
-  max-width: 100%;
-  margin: 20px 0;
+/* Cada pantalla */
+.pantalla {
+  background: rgba(0, 0, 0, 0.6);
+  border-radius: 12px;
+  padding: 20px;
+  max-width: 800px;
+  margin: 20px auto;
+  text-align: center;
 }
 
 .oculto {
   display: none;
 }
 
-h2 {
-  font-size: 24px;
+button {
+  padding: 10px 20px;
+  margin: 10px;
+  background: #ffffff;
+  border: none;
+  border-radius: 6px;
   font-weight: bold;
-  margin-bottom: 20px;
+  cursor: pointer;
+}
+
+button:hover {
+  background: #ddd;
+}
+
+img {
+  max-width: 100%;
+  margin: 20px 0;
+  border-radius: 8px;
 }

@@ -15,7 +15,7 @@ document.addEventListener('visibilitychange', ()=>{ if (!document.hidden) playVi
 // ====== MÚSICA DE FONDO ======
 const audioEl   = document.getElementById('musicaFondo');
 const btnSonido = document.getElementById('btnSonido');
-let musicaIniciada = false;                // empieza en false (se inicia al cargar/primer gesto)
+let musicaIniciada = false; // empieza en false
 
 // ---- Web Audio MIX ----
 let audioCtx, bgGain;
@@ -32,7 +32,7 @@ function ensureAudioCtx(){
   bgGain.gain.value = 0.7;           // volumen por defecto
   bgSrc.connect(bgGain).connect(audioCtx.destination);
 
-  // Silenciar el <audio> nativo para evitar duplicados/limitaciones de iOS
+  // Silenciar el <audio> nativo (sonará via WebAudio)
   if (audioEl){
     audioEl.muted = true;
     audioEl.volume = 0;
@@ -44,7 +44,6 @@ function ensureAudioCtx(){
 
 function setBtnIcon(){
   if (!btnSonido) return;
-  // si la ganancia está a 0 -> icono silencioso, si no, icono sonido
   const isOn = bgGain ? bgGain.gain.value > 0 : (!audioEl.paused);
   btnSonido.textContent = isOn ? '🔊' : '🔈';
 }
@@ -52,10 +51,8 @@ function setBtnIcon(){
 async function iniciarMusica(){
   ensureAudioCtx();
   audioEl.loop = true;
-
   try { if (audioCtx.state === 'suspended') await audioCtx.resume(); } catch(_) {}
 
-  // Si ya estamos en buffer mode, asegúrate de que hay source activo
   if (bgBufferMode){
     if (!bgSourceNode) crearYArrancarBgSource();
     musicaIniciada = true;
@@ -67,42 +64,34 @@ async function iniciarMusica(){
     await audioEl.play();
     musicaIniciada = true;
     setBtnIcon();
-  } catch(e){
-    // En móvil puede requerir gesto del usuario; lo reintentamos en el primer tap/click/tecla
-  }
+  } catch(e){ /* móvil puede requerir gesto */ }
 }
 
 // === MODO BUFFER: si iOS/Safari pausa el <audio> al reproducir <video>, usamos un loop WebAudio ===
-let bgBuffer = null;        // AudioBuffer decodificado de la música
-let bgSourceNode = null;    // BufferSource activo
-let bgBufferMode = false;   // true cuando estamos usando el modo buffer
-let bgDecodePromise = null; // promesa para no decodificar dos veces
+let bgBuffer = null;
+let bgSourceNode = null;
+let bgBufferMode = false;
+let bgDecodePromise = null;
 
 function crearYArrancarBgSource(offset=0){
   if (!bgBuffer) return;
   ensureAudioCtx();
-
   if (bgSourceNode){
     try { bgSourceNode.stop(); } catch(_){}
     try { bgSourceNode.disconnect(); } catch(_){}
-    bgSourceNode = null;
   }
-
   bgSourceNode = audioCtx.createBufferSource();
   bgSourceNode.buffer = bgBuffer;
   bgSourceNode.loop = true;
-  bgSourceNode.connect(bgGain);  // usa el MISMO gain que tu botón
+  bgSourceNode.connect(bgGain);
   const t = audioCtx.currentTime + 0.01;
   try { bgSourceNode.start(t, offset); } catch(_){}
 }
 
 async function activarBufferSiConviene(){
-  // Si ya estamos en buffer o no hay audio, nada que hacer
   if (bgBufferMode || !audioEl) return;
-
   try{
     ensureAudioCtx();
-
     if (!bgDecodePromise){
       const url = audioEl.currentSrc || audioEl.src;
       if (!url) return;
@@ -111,16 +100,12 @@ async function activarBufferSiConviene(){
         .then(ab => new Promise((res, rej) => audioCtx.decodeAudioData(ab, res, rej)));
     }
     bgBuffer = await bgDecodePromise;
-
-    // Pausamos (y ya estaba en mute) el <audio> nativo; a partir de aquí suena via WebAudio puro
     try { audioEl.pause(); } catch(_){}
     crearYArrancarBgSource();
     bgBufferMode = true;
     musicaIniciada = true;
     setBtnIcon();
-  } catch(e){
-    // Si falla (CORS/decodificación), seguimos con el <audio> + antipausa
-  }
+  } catch(e){ /* si falla CORS/decoding seguimos con <audio> + antipausa */ }
 }
 
 function algunVideoReproduciendo(){
@@ -131,17 +116,13 @@ function algunVideoReproduciendo(){
   return false;
 }
 
-// Relanza música si algo la pausa; si vemos que la pausa viene por un <video>, migramos a buffer
 function reanudarOMigrar(force=false){
   ensureAudioCtx();
   try { if (audioCtx?.state === 'suspended') audioCtx.resume(); } catch(_){}
-
-  // En buffer mode el loop no se "pausa"
   if (bgBufferMode){
     if (!bgSourceNode) crearYArrancarBgSource();
     return;
   }
-
   if ((audioEl?.paused) || force){
     if (algunVideoReproduciendo()){
       activarBufferSiConviene();
@@ -154,24 +135,16 @@ function reanudarOMigrar(force=false){
 // === BLOQUE ANTI-PAUSA: la música NUNCA se detiene salvo por tu botón ===
 function armarAntipausa(){
   if (!audioEl) return;
-
   const relanzar = ()=> reanudarOMigrar();
-
-  // Si el navegador detiene el <audio> por lo que sea, lo relanzamos/migramos.
   ['pause','ended','stalled','suspend','waiting','emptied','error','abort'].forEach(ev=>{
     audioEl.addEventListener(ev, relanzar);
   });
-
-  // Si cualquier <video> empieza a reproducirse, nos aseguramos de que el mp3 siga sonando.
   document.addEventListener('play', (e)=>{
     const t = e.target;
     if (t && t.tagName === 'VIDEO'){
-      // Deja al navegador hacer “lo suyo” y luego reanuda/migra
       setTimeout(reanudarOMigrar, 0);
     }
   }, true);
-
-  // Al volver de background o recuperar el foco, vuelve a sonar.
   window.addEventListener('pageshow', relanzar);
   window.addEventListener('focus', relanzar);
 }
@@ -190,12 +163,10 @@ btnSonido?.addEventListener('click', ()=>{
     iniciarMusica();
     return;
   }
-  // mute/unmute moviendo la ganancia (no pausamos el <audio> / buffer)
   if (bgGain.gain.value > 0){
     bgGain.gain.value = 0;
   } else {
     bgGain.gain.value = 0.7;
-    // Si estaba forzado en pausa por el SO, reanuda/migra
     reanudarOMigrar(true);
   }
   setBtnIcon();
@@ -208,8 +179,8 @@ function siguientePantalla(id){
   });
   const s = document.getElementById(id);
   if (s){ s.classList.remove('oculto'); s.classList.add('visible'); }
-  iniciarMusica();     // cualquier toque/cambio de pantalla sirve para arrancar la música
-  reanudarOMigrar();   // y aseguramos que no se haya parado
+  iniciarMusica();
+  reanudarOMigrar();
 }
 window.siguientePantalla = siguientePantalla;
 
@@ -258,7 +229,7 @@ function animacionLoca(){
   }
 }
 
-// ====== Vídeos dentro de la carta (mezclados, no pausan el mp3) ======
+// ====== Vídeos dentro de la carta: suenan al verse, se callan al salir ======
 function prepararVideosCarta(){
   const cont = document.getElementById('cartaScroll');
   if (!cont) return;
@@ -266,29 +237,27 @@ function prepararVideosCarta(){
   const vids = cont.querySelectorAll('video');
   if (!vids.length) return;
 
+  // Configuración base de cada vídeo
   vids.forEach(v=>{
     v.setAttribute('playsinline','');
     v.setAttribute('webkit-playsinline','');
     v.loop   = true;
     v.preload = 'metadata';
-    v.muted  = true;             // el elemento está en mute para que Safari no “pause” otros
+    v.muted  = true; // el elemento queda muteado, el sonido va por WebAudio
   });
 
-  // Crear nodos de audio para cada vídeo al primer gesto del usuario
-  function setupVideoNodes(){
-    ensureAudioCtx();
-    vids.forEach(v=>{
-      if (videoGains.has(v)) return; // ya montado
-      const src  = audioCtx.createMediaElementSource(v);
-      const gain = audioCtx.createGain();
-      gain.gain.value = 0;           // empieza silenciado
-      src.connect(gain).connect(audioCtx.destination);
-      videoGains.set(v, gain);
-    });
-  }
-  document.addEventListener('click', setupVideoNodes, { once:true });
-  document.addEventListener('touchstart', setupVideoNodes, { once:true });
+  // Conectar TODOS los vídeos a WebAudio de inmediato (sin esperar gesto)
+  ensureAudioCtx();
+  vids.forEach(v=>{
+    if (videoGains.has(v)) return; // ya montado
+    const src  = audioCtx.createMediaElementSource(v);
+    const gain = audioCtx.createGain();
+    gain.gain.value = 0;           // empieza silenciado
+    src.connect(gain).connect(audioCtx.destination);
+    videoGains.set(v, gain);
+  });
 
+  // Observer: hace fade-in del audio cuando se ven y fade-out al salir
   const io = new IntersectionObserver((entries)=>{
     entries.forEach(entry=>{
       const v = entry.target;
@@ -296,22 +265,21 @@ function prepararVideosCarta(){
       const saliendo = !entry.isIntersecting || entry.intersectionRatio < 0.25;
 
       const gain = videoGains.get(v);
-      if (!gain) return; // aún no se inicializó (antes del primer toque)
+      if (!gain) return;
 
       if (entrando){
         v.play().catch(()=>{});
-        // subimos la ganancia del vídeo (0.25s suavizado)
         const t = audioCtx.currentTime;
         gain.gain.cancelScheduledValues(t);
         gain.gain.setValueAtTime(gain.gain.value, t);
-        gain.gain.linearRampToValueAtTime(1.0, t + 0.25);
-        reanudarOMigrar(); // por si el SO intenta pausar la música
+        gain.gain.linearRampToValueAtTime(1.0, t + 0.25); // fade-in rápido
+        reanudarOMigrar(); // asegura que la música no se corte
       }
       if (saliendo){
         const t = audioCtx.currentTime;
         gain.gain.cancelScheduledValues(t);
         gain.gain.setValueAtTime(gain.gain.value, t);
-        gain.gain.linearRampToValueAtTime(0.0, t + 0.2);
+        gain.gain.linearRampToValueAtTime(0.0, t + 0.2);  // fade-out
         v.pause();
       }
     });
@@ -325,7 +293,6 @@ document.addEventListener('visibilitychange', async ()=>{
   if (audioCtx && audioCtx.state === 'suspended') {
     try { await audioCtx.resume(); } catch(e){}
   }
-  // si volvemos a la pestaña y la música no suena, relanza/migra
   if (audioEl && audioEl.paused) iniciarMusica();
   reanudarOMigrar();
 });

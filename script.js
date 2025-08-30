@@ -27,42 +27,53 @@ const audioEl   = document.getElementById('musicaFondo');
 const btnSonido = document.getElementById('btnSonido');
 
 let musicaIniciada = false;
-let playRetryTimer = null;
-let playRetries = 0;
-const MAX_RETRIES = 20;
+let retryTimer = null;
+let retryCount = 0;
+const MAX_RETRIES = 30;   // insiste ~30s si el navegador bloquea
 
 function setBtnIcon(){
-  if (!btnSonido || !audioEl) return;
-  btnSonido.textContent = (!audioEl.paused) ? '🔊' : '🔈';
+  if (!btnSonido) return;
+  btnSonido.textContent = (!audioEl?.paused) ? '🔊' : '🔈';
 }
 
 function tryStartMusic(){
   if (!audioEl) return;
   audioEl.autoplay = true;
   audioEl.loop = true;
-  audioEl.muted = false;   // queremos oírla desde el inicio
+  audioEl.muted = false;
   audioEl.volume = 1;
 
-  audioEl.play().then(()=>{
+  const p = audioEl.play();
+  if (!p || !p.then) return;
+
+  p.then(()=>{
     musicaIniciada = true;
-    clearTimeout(playRetryTimer);
+    clearInterval(retryTimer);
+    retryTimer = null;
     setBtnIcon();
   }).catch(()=>{
-    // Si el navegador bloquea, reintenta en breve y al cargar/visibilidad
-    if (playRetries < MAX_RETRIES){
-      clearTimeout(playRetryTimer);
-      playRetryTimer = setTimeout(()=>{ playRetries++; tryStartMusic(); }, 1200);
+    // Reintento periódico (algunos navegadores requieren interacción previa)
+    if (!retryTimer){
+      retryTimer = setInterval(()=>{
+        if (retryCount++ >= MAX_RETRIES){ clearInterval(retryTimer); retryTimer = null; return; }
+        audioEl.play().catch(()=>{});
+      }, 1000);
     }
   });
 }
 
-// Intentos agresivos de arranque al entrar
-document.addEventListener('DOMContentLoaded', ()=> { tryStartMusic(); setTimeout(tryStartMusic, 80); });
+// arranque agresivo al cargar
+document.addEventListener('DOMContentLoaded', ()=>{ tryStartMusic(); setTimeout(tryStartMusic, 80); });
 window.addEventListener('load', tryStartMusic);
-window.addEventListener('pageshow', () => tryStartMusic());
+window.addEventListener('pageshow', tryStartMusic);
 document.addEventListener('visibilitychange', ()=>{ if (!document.hidden && (audioEl.paused || !musicaIniciada)) tryStartMusic(); });
 
-// Botón: la música solo la paras/activas manualmente
+// cualquier gesto ayuda a desbloquear si hizo falta
+['pointerdown','click','touchstart','keydown','wheel','scroll','mousemove'].forEach(ev=>{
+  document.addEventListener(ev, tryStartMusic, { once:false });
+});
+
+// botón: la música solo se para/activa manualmente
 btnSonido?.addEventListener('click', ()=>{
   if (!audioEl) return;
   if (audioEl.paused){
@@ -77,7 +88,7 @@ audioEl?.addEventListener('pause', setBtnIcon);
 
 
 /*******************************************
- * 3) NAVEGACIÓN / UI (tal cual tenías)
+ * 3) NAVEGACIÓN / UI (como tenías)
  *******************************************/
 function siguientePantalla(id){
   document.querySelectorAll('.pantalla').forEach(p=>{
@@ -85,8 +96,7 @@ function siguientePantalla(id){
   });
   const s = document.getElementById(id);
   if (s){ s.classList.remove('oculto'); s.classList.add('visible'); }
-
-  // Garantiza música activa en pantalla 1 (y en las demás)
+  // asegúrate de que la música está activa al cambiar
   tryStartMusic();
 }
 window.siguientePantalla = siguientePantalla;
@@ -136,10 +146,10 @@ function animacionLoca(){
 
 /*****************************************************************
  * 4) VÍDEOS DE LA CARTA
- *    - Siempre en bucle (autoplay sin toque, en mute)
- *    - El audio del vídeo SOLO se oye mientras esté visible (>=60%)
- *    - Al salir de pantalla se silencia, pero el vídeo sigue en bucle
- *    - La música de fondo NO se toca (no se pausa automáticamente)
+ *    - Siempre en bucle (autoplay mute)
+ *    - Sonido SOLO cuando están visibles (≥60% del área scrolleable)
+ *    - Al salir, se silencian pero siguen reproduciéndose
+ *    - NO tocan la música de fondo
  *****************************************************************/
 function prepararVideosCarta(){
   const cont = document.getElementById('cartaScroll');
@@ -148,41 +158,31 @@ function prepararVideosCarta(){
   const vids = cont.querySelectorAll('video');
   if (!vids.length) return;
 
-  // Configuración base + autoplay (permitido porque van en mute)
   vids.forEach(v=>{
     v.setAttribute('playsinline','');
     v.setAttribute('webkit-playsinline','');
     v.loop = true;
     v.preload = 'auto';
-    v.muted = true;          // autoplay seguro en móvil
+    v.muted = true;                // autoplay seguro
     v.setAttribute('muted','');
-    v.play().catch(()=>{});
-
-    // Si por cualquier razón se para, lo relanzamos
-    v.addEventListener('pause', ()=>{ v.play().catch(()=>{}); });
-    v.addEventListener('stalled', ()=>{ v.play().catch(()=>{}); });
-    v.addEventListener('waiting', ()=>{ v.play().catch(()=>{}); });
+    const forcePlay = ()=> v.play().catch(()=>{});
+    forcePlay();
+    ['pause','stalled','waiting','ended'].forEach(ev => v.addEventListener(ev, forcePlay));
   });
 
-  // Observer para activar/desactivar el SONIDO según visibilidad
+  // Sonido en función de visibilidad
   const io = new IntersectionObserver((entries)=>{
     entries.forEach(entry=>{
       const v = entry.target;
-      const entrando = entry.isIntersecting && entry.intersectionRatio >= 0.6;
-      const saliendo = !entry.isIntersecting || entry.intersectionRatio < 0.25;
-
-      if (entrando){
-        // El vídeo ya está reproduciéndose; solo activamos sonido
-        v.muted = false;
-        // Forzamos play por si el user pausó manualmente
+      const visible = entry.isIntersecting && entry.intersectionRatio >= 0.6;
+      if (visible){
         v.play().catch(()=>{});
-      }
-      if (saliendo){
-        // Silenciamos, pero NO paramos el vídeo (sigue el bucle)
-        v.muted = true;
+        v.muted = false;           // oyes el vídeo
+      } else {
+        v.muted = true;            // se silencia, pero NO se pausa
       }
     });
-  }, { root: cont, threshold: [0, 0.25, 0.6, 1] });
+  }, { root: cont, threshold: [0, 0.6, 1] });
 
   vids.forEach(v=> io.observe(v));
 }
@@ -190,7 +190,6 @@ function prepararVideosCarta(){
 document.addEventListener('DOMContentLoaded', prepararVideosCarta);
 document.addEventListener('visibilitychange', ()=>{
   if (!document.hidden){
-    // Si volvemos a la pestaña, asegura música y que los vídeos sigan
     tryStartMusic();
     const cont = document.getElementById('cartaScroll');
     cont?.querySelectorAll('video').forEach(v=> v.play().catch(()=>{}));

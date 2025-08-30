@@ -5,7 +5,7 @@ const bgVideo = document.getElementById('videoFondo');
 function playVideoSeguro(){
   if (!bgVideo) return;
   bgVideo.setAttribute('muted','');
-  bgVideo.muted = true;
+  bgVideo.muted = false;
   bgVideo.loop = true;
   bgVideo.playsInline = true;
   bgVideo.setAttribute('playsinline','');
@@ -26,7 +26,7 @@ document.addEventListener('visibilitychange', ()=>{ if (!document.hidden) playVi
 const audioEl   = document.getElementById('musicaFondo');
 const btnSonido = document.getElementById('btnSonido');
 
-let musicaIniciada = false;
+let musicaIniciada = true;
 let playRetryTimer = null;
 let playRetries = 0;
 const MAX_RETRIES = 20;
@@ -196,3 +196,4 @@ document.addEventListener('visibilitychange', ()=>{
     cont?.querySelectorAll('video').forEach(v=> v.play().catch(()=>{}));
   }
 });
+

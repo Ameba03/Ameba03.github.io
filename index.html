@@ -2,22 +2,20 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
   <title>Luna · Marieta</title>
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
   <!-- 🎥 Vídeo de fondo -->
-  <video id="videoFondo" autoplay muted loop playsinline>
+  <video id="videoFondo" autoplay muted loop playsinline webkit-playsinline preload="auto">
     <source src="luna.mp4" type="video/mp4" />
-    Tu navegador no admite el video HTML5.
   </video>
 
-  <!-- 🔊 Música de fondo (se activa con el primer clic) -->
+  <!-- 🔊 Música (se activa en el primer toque) -->
   <audio id="musicaFondo" src="fondo.mp3" loop preload="auto"></audio>
-  <button id="btnSonido" class="sonido" aria-label="Silenciar o activar sonido" title="Sonido">🔊</button>
+  <button id="btnSonido" class="sonido" aria-label="Silenciar/activar sonido" title="Sonido">🔈</button>
 
-  <!-- 📄 Contenido sobre el fondo -->
   <div id="contenido">
     <!-- 1) Primera pregunta -->
     <section class="pantalla visible" id="pantalla1" aria-live="polite">
@@ -35,7 +33,7 @@
       </div>
     </section>
 
-    <!-- 3) Carta con scroll e imágenes incrustadas -->
+    <!-- 3) Carta con scroll -->
     <section class="pantalla oculto" id="pantallaCarta">
       <div class="card carta">
         <header class="carta-header">
@@ -43,11 +41,9 @@
           <small>Desliza hacia abajo para leer</small>
         </header>
 
-        <div class="scroll">
+        <div class="scroll" id="cartaScroll">
           <p>Lo primero que nada, perdona por hacer la mayor frikada posible jamás existida bajo la faz de la Tierra.</p>
-
           <p>La verdad que esto de la carta huele un rato a copia de la que me hiciste tú asi que yo he decidido hacerla en digital para meterle diferenciación (no es porque no fueras a entender mi letra ehh)</p>
-
           <p>Además si lo piensas la tecnología tiene ventajas como que te puedo poner fotones como este:</p>
 
           <div class="galeria2">
@@ -62,7 +58,6 @@
           </div>
 
           <p>donde comenzó el vacile que parece y espero que no finalize nunca.</p>
-
           <p>Aqui te ganastes unos cuantos de tus mejores y peores motes que mejor ni mencionamos, Me he puesto a mirar los archivos de whasshap y parece una expecie de exposición abstracta de arte urbano.</p>
 
           <figure class="foto-sola">
@@ -71,11 +66,8 @@
           </figure>
 
           <p>pero sobre todo en este punto me empezaste a enseñar como eras tú.</p>
-
           <p>Me pasaste el mejor listado de planes que me han pasado nunca y aunque luego fuimos a la bolera me diste a conocer una forma de ser que no había visto antes de esa forma y que como te dije me parecía muy divertida lejos de todo lo anterior que podía haber vivido.</p>
-
           <p>Esto obviamente solo fue el mero inicio de una serie de planes y situaciones a cada cual más random y top que me hacían ver que contigo no sólo podía estar increíblemente agusto y pasármelo de 10 sino que me hacen sentir que estoy pasando tiempo con alguien que disfruta haciendo las mismas cosss que a mi mismo me hacen disfrutar lo que cual es la ostia.</p>
-
           <p>Igual suena sencillo o poco destacable pero para mí ir a un museo de putos dinosaurios, jugar al pilla pilla en Alcalá después de volver a intentar un pulso, dar un paseo aleatorio por Madrid, entrar en un rolplay extraño del cluedo o ponernos a dibujarnos en el parque roñoso de Fuenlabrada (Leganés más bien)</p>
 
           <figure class="foto-sola">
@@ -84,12 +76,10 @@
           </figure>
 
           <p>Son una clase de planes y situaciones que he sentido que solo puedo vivir contigo y que Justo así es como se sienten especiales o únicas.</p>
-
           <p>Podría hablarte de lo imborrable que es cuando te quedas a dormir conmigo o del regalo más top que me hiciste en mi cumpleaños que me hizo sentir como que me habías entendido o conectado conmigo como prácticamente nadie había hecho, pero prefiero hablarte de ti.</p>
 
           <p>Tu María, me has enseñado una forma distinta de ver la vida, una forma en la que se valora sobre todo el ser feliz y disfrutar aprovechando cada momento que tienes a tu disposición. Como te dije alguna vez ser una disfrutona. Pero más profundamente a vivir todo desde un punto más emocional y real sin pararte a sobreanalizar las situaciones y simplemente limitándote a vivirlas y sentirlas de verdad algo que aunque sé que me cuesta en mis puntos de vista más racionales o fríos es algo que de verdad envidio en muchos momentos. Después de todo has llegado hasta tal punto que me has decidió compartir algo tan íntimo para ti como era el significado de tu tatuaje y de tu conexión de sentimientos y deseos en ciertos momentos con algo tan asombroso como la luna. Y es por esto que como un amago de acercarme más a tu forma de ver el mundo y vivir las experiencias de una forma más única y especiales he decidido transmitirte todo este mensaje hoy, puede que no sea el día exacto de luna llena pero nuestro calendario apretado de agosto me lo complicaba, aún así según mis cálculos debería verse prácticamente completa y con el asombroso vídeo de fondo si alguna vez decides volver a leer esto podrás volver a verla. Lo que al final te quiero decir con todo este texto es que me gustas María, mucho. Y que a pesar de cualquier contratiempo o situaciones que podamos haber tenido o q vayamos a poder tener me da exactamente igual porque he decido basar mi decisión no en esas circunstancias sino en lo que siento que quiero hacer y eso sin duda es estar contigo y conocerte a fondo durante todo el tiempo posible (63 años diría el tercer jugador), por eso aunque puede que te suene precipitado o arriesgado o ansioso por mi parte mi decisión está clara y necesitaba transmitirte esta pregunta en este punto,</p>
 
-          <!-- 4) La gran pregunta al final de la carta -->
           <div class="pregunta-final" id="preguntaFinal">
             <h3>De la forma más friki y extraña que te podrías imaginar…</h3>
             <h2>¿Quieres ser mi novia, Marieta?</h2>
@@ -99,10 +89,13 @@
             </div>
           </div>
         </div>
+
+        <!-- botón flotante para saltar a la pregunta -->
+        <button id="btnSaltar" class="saltar" onclick="irAPregunta()">Ir a la pregunta ⤵️</button>
       </div>
     </section>
 
-    <!-- 5) Resultado: Sí = animación loca -->
+    <!-- 4) Sí -->
     <section class="pantalla oculto" id="pantalla6">
       <div class="card animacion-cohetes">
         <p class="grande">¡Sabía que sí! 💖</p>
@@ -111,7 +104,7 @@
       </div>
     </section>
 
-    <!-- 6) Resultado: No = mensaje de error simpático -->
+    <!-- 5) No -->
     <section class="pantalla oculto" id="pantalla7">
       <div class="card">
         <p class="grande">Vaya, te has equivocado… vuelve a intentarlo 😏</p>

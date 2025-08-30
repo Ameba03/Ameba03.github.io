@@ -5,7 +5,6 @@ function playVideoSeguro(){
   video.setAttribute('muted','');
   video.muted = true;          // requerido para autoplay en iOS
   video.loop = true;
-  // varios intentos para distintos navegadores
   video.play().catch(()=>{});
 }
 document.addEventListener('DOMContentLoaded', playVideoSeguro);
@@ -29,7 +28,7 @@ function iniciarMusica() {
   audio.play().then(()=>{
     musicaIniciada = true;
     if (btnSonido) btnSonido.textContent = '🔊';
-  }).catch(()=>{/* iOS puede pedir otro toque */});
+  }).catch(()=>{});
 }
 btnSonido?.addEventListener('click', ()=>{
   if (audio.paused) {
@@ -100,7 +99,7 @@ function animacionLoca() {
 }
 
 // ----- Vídeos dentro de la carta -----
-// Reproducción en bucle; sonido SOLO cuando están visibles; pausa el mp3 mientras suenan
+// Autoplay en bucle; SONIDO solo cuando están visibles; NO se pausa la música de fondo
 function prepararVideosCarta(){
   const cont = document.getElementById('cartaScroll');
   if (!cont) return;
@@ -108,15 +107,14 @@ function prepararVideosCarta(){
   const vids = cont.querySelectorAll('video');
   if (!vids.length) return;
 
-  let currentVideo = null;      // vídeo que suena ahora
-  let audioWasPlaying = false;  // recordar si el mp3 estaba sonando
+  let currentVideo = null;
 
   vids.forEach(v=>{
     v.setAttribute('playsinline','');
     v.setAttribute('webkit-playsinline','');
     v.loop = true;
     v.preload = 'metadata';
-    v.muted = true; // estado inicial
+    v.muted = true; // inicio en mute
   });
 
   const io = new IntersectionObserver((entries)=>{
@@ -126,34 +124,20 @@ function prepararVideosCarta(){
       const saliendo = !entry.isIntersecting || entry.intersectionRatio < 0.25;
 
       if (entrando) {
-        // Pausar otro vídeo activo
         if (currentVideo && currentVideo !== v) {
           currentVideo.pause();
           currentVideo.muted = true;
         }
-        // Pausar mp3 si estaba sonando
-        if (audio && !audio.paused) {
-          audioWasPlaying = true;
-          audio.pause();
-          if (btnSonido) btnSonido.textContent = '🔈';
-        } else {
-          audioWasPlaying = false;
-        }
-
         currentVideo = v;
-        v.muted = false;           // permitir sonido (ya hubo interacción en la app)
-        v.play().catch(()=>{});    // si el navegador no deja, el usuario puede darle play
+        v.muted = false;           // habilita sonido del vídeo
+        v.play().catch(()=>{});
+        // Nota: NO tocamos el audio de fondo (sigue sonando)
       }
 
       if (saliendo && currentVideo === v) {
         v.pause();
         v.muted = true;
         currentVideo = null;
-
-        if (audio && audioWasPlaying) {
-          audio.play().then(()=>{ if (btnSonido) btnSonido.textContent='🔊'; }).catch(()=>{});
-        }
-        audioWasPlaying = false;
       }
     });
   }, { root: cont, threshold: [0, 0.25, 0.6, 1] });

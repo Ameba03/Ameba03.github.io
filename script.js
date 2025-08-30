@@ -1,16 +1,80 @@
-// ====== VÍDEO DE FONDO: autoplay en móvil ======
+// ====== VÍDEO DE FONDO: autoplay + bucle sin corte (crossfade) ======
 const bgVideo = document.getElementById('videoFondo');
+let bgVideoClone = null;
+let bgActivo = null;
+const BG_CROSSFADE = 0.45; // segundos de fundido
+
+function configuraBgVideo(v){
+  if (!v) return;
+  v.setAttribute('muted','');
+  v.muted = true;
+  v.removeAttribute('loop'); // hacemos el bucle por JS para evitar el "corte"
+  v.loop = false;
+  v.autoplay = true;
+  v.playsInline = true;
+  v.setAttribute('playsinline','');
+  v.setAttribute('webkit-playsinline','');
+  v.preload = 'auto';
+  try{ v.load(); }catch(_){}
+  v.addEventListener('canplay', ()=>{ v.play().catch(()=>{}); }, { once:true });
+}
+
+function ensurePlay(v){
+  if (!v) return;
+  v.setAttribute('muted','');
+  v.muted = true;
+  v.autoplay = true;
+  v.play().catch(()=>{ /* silencioso */ });
+}
+
+function initSeamlessBg(){
+  if (!bgVideo) return;
+  if (!bgVideoClone){
+    // Clon debajo del contenido, detrás del original
+    bgVideoClone = bgVideo.cloneNode(true);
+    bgVideoClone.id = 'videoFondoClone';
+    bgVideo.parentNode.insertBefore(bgVideoClone, bgVideo.nextSibling);
+  }
+  [bgVideo, bgVideoClone].forEach(configuraBgVideo);
+  bgActivo = bgVideo;
+
+  // bucle de crossfade
+  const step = () => {
+    const v = bgActivo;
+    if (v && isFinite(v.duration) && v.duration > 0){
+      const resto = v.duration - v.currentTime;
+      if (resto <= BG_CROSSFADE + 0.02){ // +pelín de colchón
+        const next = (bgActivo === bgVideo) ? bgVideoClone : bgVideo;
+        // arranca el siguiente desde el inicio y funde
+        try { next.currentTime = 0.001; } catch(_){}
+        ensurePlay(next);
+        next.style.opacity = '1';
+        v.style.opacity = '0';
+        setTimeout(()=>{
+          try{ v.pause(); }catch(_){}
+          bgActivo = next;
+        }, (BG_CROSSFADE * 1000) + 30);
+      }
+    }
+    requestAnimationFrame(step);
+  };
+  requestAnimationFrame(step);
+}
+
 function playVideoSeguro(){
   if (!bgVideo) return;
-  bgVideo.setAttribute('muted','');
-  bgVideo.muted = true;
-  bgVideo.loop = true;
-  bgVideo.play().catch(()=>{});
+  ensurePlay(bgActivo || bgVideo);
+  ensurePlay(bgVideoClone || bgVideo);
 }
-document.addEventListener('DOMContentLoaded', playVideoSeguro);
+
+// Eventos para asegurar autoplay en móvil
+document.addEventListener('DOMContentLoaded', ()=>{
+  initSeamlessBg();
+  playVideoSeguro();
+});
 window.addEventListener('load', playVideoSeguro);
 document.addEventListener('visibilitychange', ()=>{ if (!document.hidden) playVideoSeguro(); });
-['touchstart','click'].forEach(ev => document.addEventListener(ev, playVideoSeguro, { once:true }));
+['pointerdown','touchstart','click'].forEach(ev => document.addEventListener(ev, playVideoSeguro, { once:true }));
 
 // ====== MÚSICA DE FONDO ======
 const audioEl   = document.getElementById('musicaFondo');
@@ -39,12 +103,27 @@ function ensureAudioCtx(){
 function iniciarMusica(){
   if (musicaIniciada) return;
   ensureAudioCtx();
+  audioCtx.resume && audioCtx.resume();
   audioEl.play().then(()=>{
     musicaIniciada = true;
     btnSonido && (btnSonido.textContent = '🔊');
-    audioCtx.resume && audioCtx.resume();
-  }).catch(()=>{});
+  }).catch(()=>{ /* algunos móviles bloquean hasta gesto del usuario */ });
 }
+
+// Intento de autoplay al cargar (si el navegador lo permite)
+function intentarAutoMusica(){
+  try{
+    ensureAudioCtx();
+    audioCtx.resume && audioCtx.resume();
+    iniciarMusica();
+  }catch(_){}
+}
+document.addEventListener('DOMContentLoaded', ()=> setTimeout(intentarAutoMusica, 100));
+window.addEventListener('load', intentarAutoMusica);
+// Primer gesto en cualquier parte de la pantalla => iniciar música
+['pointerdown','touchstart','click','keydown'].forEach(ev => {
+  document.addEventListener(ev, iniciarMusica, { once:true });
+});
 
 btnSonido?.addEventListener('click', ()=>{
   if (!audioCtx) ensureAudioCtx();
@@ -69,7 +148,7 @@ function siguientePantalla(id){
   });
   const s = document.getElementById(id);
   if (s){ s.classList.remove('oculto'); s.classList.add('visible'); }
-  iniciarMusica(); // primer toque => arranca música y AudioContext
+  iniciarMusica(); // sigue siendo válido
 }
 window.siguientePantalla = siguientePantalla;
 
@@ -118,7 +197,7 @@ function animacionLoca(){
   }
 }
 
-// ====== Vídeos dentro de la carta (mezclados, no pausan el mp3) ======
+// ====== Vídeos dentro de la carta (mezclados) ======
 function prepararVideosCarta(){
   const cont = document.getElementById('cartaScroll');
   if (!cont) return;
@@ -131,10 +210,9 @@ function prepararVideosCarta(){
     v.setAttribute('webkit-playsinline','');
     v.loop   = true;
     v.preload = 'metadata';
-    v.muted  = true;             // el elemento está en mute para que Safari no “pause” otros
+    v.muted  = true; // el elemento en mute; suena por WebAudio cuando lo hacemos audible
   });
 
-  // Crear nodos de audio para cada vídeo al primer gesto del usuario
   function setupVideoNodes(){
     ensureAudioCtx();
     vids.forEach(v=>{
@@ -146,8 +224,10 @@ function prepararVideosCarta(){
       videoGains.set(v, gain);
     });
   }
+  // Montamos nodos al primer gesto del usuario (y también si ya está la música en marcha)
   document.addEventListener('click', setupVideoNodes, { once:true });
   document.addEventListener('touchstart', setupVideoNodes, { once:true });
+  if (musicaIniciada) setupVideoNodes();
 
   const io = new IntersectionObserver((entries)=>{
     entries.forEach(entry=>{
@@ -156,10 +236,16 @@ function prepararVideosCarta(){
       const saliendo = !entry.isIntersecting || entry.intersectionRatio < 0.25;
 
       const gain = videoGains.get(v);
-      if (!gain) return; // aún no se inicializó (antes del primer toque)
+      if (!gain) return; // aún no se inicializó
 
       if (entrando){
         v.play().catch(()=>{});
+        // --- (4) AUTOPULSO del botón de sonido 1 sola vez cuando empieza a sonar un vídeo ---
+        if (musicaIniciada && bgGain && bgGain.gain.value > 0 && !v.__autoPulseDone){
+          // esto equivale a "mutear" música pulsando el botón (icono incluido)
+          btnSonido?.click();
+          v.__autoPulseDone = true;
+        }
         // subimos la ganancia del vídeo (0.25s suavizado)
         const t = audioCtx.currentTime;
         gain.gain.cancelScheduledValues(t);
@@ -172,6 +258,8 @@ function prepararVideosCarta(){
         gain.gain.setValueAtTime(gain.gain.value, t);
         gain.gain.linearRampToValueAtTime(0.0, t + 0.2);
         v.pause();
+        // permitimos que vuelva a "autopulsar" la próxima vez que entre
+        v.__autoPulseDone = false;
       }
     });
   }, { root: cont, threshold: [0, 0.25, 0.6, 1] });

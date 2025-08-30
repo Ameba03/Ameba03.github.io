@@ -1,176 +1,96 @@
-/* 🎥 Fondo de vídeo */
-#videoFondo {
-  position: fixed;
-  inset: 0;
-  width: 100vw;
-  height: 100vh;
-  object-fit: cover;
-  z-index: -1;
-  background: black;
-  pointer-events: none;
+// ----- Vídeo: asegurar reproducción en móvil -----
+const video = document.getElementById('videoFondo');
+function playVideoSeguro(){
+  if (!video) return;
+  video.muted = true;    // requerido para autoplay en iOS
+  video.loop = true;
+  video.play().catch(()=>{ /* iOS puede bloquear hasta un gesto */ });
+}
+document.addEventListener('DOMContentLoaded', playVideoSeguro);
+document.addEventListener('visibilitychange', () => {
+  if (!document.hidden) playVideoSeguro();
+});
+['touchstart','click'].forEach(ev=>{
+  document.addEventListener(ev, playVideoSeguro, { once:true });
+});
+
+// ----- Música de fondo con control -----
+const audio = document.getElementById('musicaFondo');
+const btnSonido = document.getElementById('btnSonido');
+let musicaIniciada = false;
+
+function iniciarMusica() {
+  if (musicaIniciada) return;
+  if (!audio) return;
+  audio.volume = 0.7;
+  audio.play().then(()=>{
+    musicaIniciada = true;
+    btnSonido.textContent = '🔊';
+  }).catch(()=>{/* si falla, el botón lo activará */});
+}
+btnSonido.addEventListener('click', ()=>{
+  if (audio.paused) {
+    audio.play().then(()=>{ musicaIniciada=true; btnSonido.textContent='🔊'; }).catch(()=>{});
+  } else {
+    audio.pause();
+    btnSonido.textContent='🔈';
+  }
+});
+
+// ----- Navegación de pantallas -----
+function siguientePantalla(id) {
+  document.querySelectorAll('.pantalla').forEach(p=>{
+    p.classList.remove('visible'); p.classList.add('oculto');
+  });
+  const s = document.getElementById(id);
+  if (s){ s.classList.remove('oculto'); s.classList.add('visible'); }
+  iniciarMusica(); // primer toque = arranca música
 }
 
-/* 💻 Layout base */
-:root {
-  --negro: rgba(0,0,0,.7);
-  --blanco: #fff;
+// ----- Ir a la pregunta (scroll al final de la carta) -----
+function irAPregunta(){
+  const cont = document.getElementById('cartaScroll');
+  const destino = document.getElementById('preguntaFinal');
+  if (cont && destino){
+    cont.scrollTo({ top: destino.offsetTop - 8, behavior:'smooth' });
+  }
 }
+window.irAPregunta = irAPregunta; // para el botón del HTML
 
-* { box-sizing: border-box; }
-
-html, body {
-  margin: 0;
-  height: 100%;
-  font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
-  color: var(--blanco);
-  overflow: hidden; /* no scroll global */
+// ----- Resultado final -----
+function respuestaFinal(opcion) {
+  if (opcion === 'si') {
+    siguientePantalla('pantalla6');
+    animacionLoca();
+  } else {
+    siguientePantalla('pantalla7');
+  }
 }
+window.respuestaFinal = respuestaFinal;
+window.siguientePantalla = siguientePantalla;
 
-#contenido {
-  position: relative;
-  z-index: 1;
-  height: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-  padding: 20px;
-}
-
-/* 💬 Tarjetas */
-.card {
-  background: var(--negro);
-  backdrop-filter: blur(2px);
-  padding: 22px 26px;
-  border-radius: 14px;
-  max-width: 900px;
-  width: min(92vw, 900px);
-  box-shadow: 0 10px 30px rgba(0,0,0,.35);
-}
-
-.card p { font-size: 1.15rem; margin: 0 0 16px; }
-
-.primario, .secundario, .card button {
-  padding: 12px 22px;
-  font-size: 1rem;
-  border: none;
-  border-radius: 10px;
-  cursor: pointer;
-  transition: transform .08s ease, opacity .2s ease;
-}
-.primario { background: var(--blanco); color: #111; }
-.secundario { background: transparent; color: var(--blanco); outline: 2px solid var(--blanco); }
-.grande { font-size: 1.15rem; padding: 14px 26px; }
-.card button:hover { transform: translateY(-1px); opacity: .95; }
-
-/* 👻 Oculto/visible */
-.pantalla { display: none; }
-.visible { display: block; }
-.oculto { display: none; }
-
-/* 📝 Carta */
-.carta header h2 { margin: 0 0 6px; }
-.carta header small { opacity: .8; }
-
-.carta .scroll {
-  margin-top: 10px;
-  max-height: 68vh;       /* ← hace scroll dentro de la carta */
-  overflow-y: auto;
-  text-align: left;
-  padding-right: 6px;
-}
-
-.carta .scroll p { line-height: 1.55; }
-
-.carta .scroll::-webkit-scrollbar { width: 8px; }
-.carta .scroll::-webkit-scrollbar-thumb { background: rgba(255,255,255,.25); border-radius: 8px; }
-
-.galeria2 {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 12px;
-  margin: 14px 0;
-}
-.foto-sola { margin: 14px 0; text-align: center; }
-
-.carta img {
-  width: 100%;
-  height: auto;
-  border-radius: 10px;
-  display: block;
-}
-
-.carta figcaption {
-  text-align: center;
-  opacity: .8;
-  font-size: .9rem;
-  margin-top: 6px;
-}
-
-/* Pregunta final dentro de la carta */
-.pregunta-final {
-  margin: 28px 0 6px;
-  text-align: center;
-  padding-top: 8px;
-  border-top: 1px solid rgba(255,255,255,.15);
-}
-.pregunta-final h2 { margin: 6px 0 14px; }
-.pregunta-final .acciones { display: flex; gap: 12px; justify-content: center; }
-
-/* 🎇 Animación celebración (confeti + corazones) */
-#confeti, .confeti, .heart {
-  position: fixed;
-  pointer-events: none;
-  z-index: 5;
-}
-
-@keyframes caer {
-  to { transform: translateY(105vh) rotate(720deg); opacity: 1; }
-}
-@keyframes subir {
-  to { transform: translateY(-110vh) scale(1.2); opacity: 0; }
-}
-
-.confeti {
-  top: -10vh;
-  width: 10px; height: 14px;
-  background: white;
-  opacity: .9;
-  border-radius: 2px;
-  animation: caer linear forwards;
-}
-
-.heart {
-  bottom: -8vh;
-  font-size: 22px;
-  animation: subir 4s ease-in forwards;
-}
-
-/* Explosión/zoom de la tarjeta al decir que sí */
-.animacion-cohetes { animation: pop 0.8s ease forwards; }
-.grande { font-size: 1.3rem; }
-@keyframes pop {
-  0% { transform: scale(0.95); }
-  60% { transform: scale(1.05); }
-  100% { transform: scale(1); }
-}
-
-/* 🔊 Botón de sonido */
-.sonido {
-  position: fixed;
-  top: 14px; right: 14px;
-  z-index: 2;
-  background: var(--negro);
-  color: var(--blanco);
-  border: 1px solid rgba(255,255,255,.35);
-  border-radius: 999px;
-  padding: 8px 12px;
-  line-height: 1;
-}
-
-/* 📱 Responsive */
-@media (max-width: 768px) {
-  .card { padding: 20px 18px; }
-  .galeria2 { grid-template-columns: 1fr; }
-  .pregunta-final .acciones { flex-direction: column; }
+// ----- Animación celebración -----
+function animacionLoca() {
+  for (let i=0;i<160;i++){
+    const c=document.createElement('span');
+    c.className='confeti';
+    c.style.left=(Math.random()*100)+'vw';
+    c.style.animationDuration=(2.5+Math.random()*2.5)+'s';
+    c.style.animationDelay=(Math.random()*0.8)+'s';
+    c.style.transform=`rotate(${Math.random()*360}deg)`;
+    c.style.background=`hsl(${Math.floor(Math.random()*360)},90%,60%)`;
+    document.body.appendChild(c);
+    setTimeout(()=>c.remove(),4000);
+  }
+  const corazones=['💖','💗','💘','💝','❤️','🩷'];
+  for(let i=0;i<30;i++){
+    const h=document.createElement('span');
+    h.className='heart';
+    h.textContent=corazones[i%corazones.length];
+    h.style.left=(5+Math.random()*90)+'vw';
+    h.style.animationDuration=(3+Math.random()*3.5)+'s';
+    h.style.animationDelay=(Math.random()*0.6)+'s';
+    document.body.appendChild(h);
+    setTimeout(()=>h.remove(),5000);
+  }
 }

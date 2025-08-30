@@ -108,3 +108,11 @@ html,body{ margin:0; height:100%; font-family:system-ui, -apple-system, Segoe UI
 @media (max-width: 420px){
   .carta video{ max-height: 42dvh; }
 }
+/* Oculta las leyendas bajo fotos y vídeos de la carta */
+.carta figcaption {
+  display: none !important;
+  height: 0 !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+

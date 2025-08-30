@@ -165,4 +165,80 @@ function prepararVideosCarta(){
   if (!vids.length) return;
 
   vids.forEach(v=>{
-    v.setAttribute('playsinline',''); v.setAttribute('webkit-playsinline',
+    v.setAttribute('playsinline',''); v.setAttribute('webkit-playsinline','');
+    v.loop = true; v.preload = 'metadata'; v.muted = true; // por defecto mudo
+  });
+
+  function montarNodos(){
+    ensureCtx();
+    vids.forEach(v=>{
+      if (videoGains.has(v)) return;
+      const src = audioCtx.createMediaElementSource(v);
+      const g = audioCtx.createGain(); g.gain.value = 0;
+      src.connect(g).connect(audioCtx.destination);
+      videoGains.set(v, g);
+    });
+  }
+  // montamos al primer gesto (y así desbloqueamos audio en iOS)
+  document.addEventListener('click', montarNodos, { once:true });
+  document.addEventListener('touchstart', montarNodos, { once:true });
+
+  const io = new IntersectionObserver((entries)=>{
+    entries.forEach(entry=>{
+      const v = entry.target;
+      const g = videoGains.get(v);
+      const entrando = entry.isIntersecting && entry.intersectionRatio >= 0.6;
+      const saliendo  = !entry.isIntersecting || entry.intersectionRatio < 0.25;
+
+      if (entrando){
+        v.play().catch(()=>{});
+        if (audioCtx && g){
+          const t=audioCtx.currentTime;
+          g.gain.cancelScheduledValues(t);
+          g.gain.setValueAtTime(g.gain.value, t);
+          g.gain.linearRampToValueAtTime(1, t+0.25);
+          v.muted = true; // suena por WebAudio
+        } else {
+          v.muted = false; // fallback si aún no hay ctx
+        }
+
+        // Pausamos música si está sonando
+        if (musica && !musica.paused){
+          stopMusic();
+          pausadaPorVideo = true;
+        }
+        videosAudibles++;
+      }
+
+      if (saliendo){
+        if (audioCtx && g){
+          const t=audioCtx.currentTime;
+          g.gain.cancelScheduledValues(t);
+          g.gain.setValueAtTime(g.gain.value, t);
+          g.gain.linearRampToValueAtTime(0, t+0.2);
+        }
+        v.pause();
+        v.muted = true;
+
+        videosAudibles = Math.max(0, videosAudibles-1);
+        // Si no quedan vídeos audibles y la paramos por vídeo, reanudar música
+        if (pausadaPorVideo && videosAudibles===0){
+          pausadaPorVideo = false;
+          startMusic();
+        }
+      }
+    });
+  }, { root: cont, threshold:[0,0.25,0.6,1] });
+
+  vids.forEach(v=> io.observe(v));
+}
+
+document.addEventListener('DOMContentLoaded', prepararVideosCarta);
+document.addEventListener('visibilitychange', ()=>{
+  if (!document.hidden){
+    startMusic();
+    if (audioCtx && audioCtx.state === 'suspended'){
+      audioCtx.resume().catch(()=>{});
+    }
+  }
+});

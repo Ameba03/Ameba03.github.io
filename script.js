@@ -31,8 +31,6 @@ function ensureAudioCtx(){
   bgGain = audioCtx.createGain();
   bgGain.gain.value = 0.7;           // volumen por defecto
   bgSrc.connect(bgGain).connect(audioCtx.destination);
-
-
 }
 
 function setBtnIcon(){
@@ -59,6 +57,41 @@ async function iniciarMusica(){
     // En móvil puede requerir gesto del usuario; lo reintentamos en el primer tap/click/tecla
   }
 }
+
+// === BLOQUE ANTI-PAUSA: la música NUNCA se detiene salvo por tu botón ===
+function reanudarMusica(force=false){
+  if (!audioEl) return;
+  ensureAudioCtx();
+  try { if (audioCtx?.state === 'suspended') audioCtx.resume(); } catch(_) {}
+  if (audioEl.paused || force){
+    audioEl.play().catch(()=>{});
+  }
+}
+function armarAntipausa(){
+  if (!audioEl) return;
+
+  const relanzar = ()=> reanudarMusica();
+
+  // Si el navegador detiene el <audio> por lo que sea, lo relanzamos.
+  ['pause','ended','stalled','suspend','waiting','emptied','error','abort'].forEach(ev=>{
+    audioEl.addEventListener(ev, relanzar);
+  });
+
+  // Si cualquier <video> empieza a reproducirse, nos aseguramos de que el mp3 siga sonando.
+  document.addEventListener('play', (e)=>{
+    const t = e.target;
+    if (t && t.tagName === 'VIDEO'){
+      // En Safari/iOS esto puede pausar el <audio>; lo reintentamos inmediatamente.
+      setTimeout(()=>{ if (audioEl.paused) reanudarMusica(); }, 0);
+    }
+  }, true);
+
+  // Al volver de background o recuperar el foco, vuelve a sonar.
+  window.addEventListener('pageshow', ()=> reanudarMusica());
+  window.addEventListener('focus', ()=> reanudarMusica());
+}
+document.addEventListener('DOMContentLoaded', armarAntipausa);
+// === FIN BLOQUE ANTI-PAUSA ===
 
 // Intentos de inicio y desbloqueo por primer gesto global
 document.addEventListener('DOMContentLoaded', ()=> setTimeout(iniciarMusica, 80));
@@ -207,4 +240,3 @@ document.addEventListener('visibilitychange', async ()=>{
   // si volvemos a la pestaña y la música no suena, inténtalo de nuevo
   if (audioEl && audioEl.paused) iniciarMusica();
 });
-

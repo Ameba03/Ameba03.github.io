@@ -3,7 +3,7 @@ const bgVideo = document.getElementById('videoFondo');
 function playVideoSeguro(){
   if (!bgVideo) return;
   bgVideo.setAttribute('muted','');
-  bgVideo.muted = true;
+  bgVideo.muted = false;
   bgVideo.loop = true;
   bgVideo.play().catch(()=>{});
 }
@@ -15,7 +15,7 @@ document.addEventListener('visibilitychange', ()=>{ if (!document.hidden) playVi
 // ====== MÚSICA DE FONDO ======
 const audioEl   = document.getElementById('musicaFondo');
 const btnSonido = document.getElementById('btnSonido');
-let musicaIniciada = false;                // <-- ARREGLO: debe empezar en false
+let musicaIniciada = true;                // <-- ARREGLO: debe empezar en false
 
 // ---- Web Audio MIX ----
 let audioCtx, bgGain;
@@ -32,8 +32,7 @@ function ensureAudioCtx(){
   bgGain.gain.value = 0.7;           // volumen por defecto
   bgSrc.connect(bgGain).connect(audioCtx.destination);
 
-  audioEl.muted = true;               // el elemento queda mudo; suena por WebAudio
-  audioEl.volume = 0;                 // por si acaso
+
 }
 
 function setBtnIcon(){
@@ -208,3 +207,4 @@ document.addEventListener('visibilitychange', async ()=>{
   // si volvemos a la pestaña y la música no suena, inténtalo de nuevo
   if (audioEl && audioEl.paused) iniciarMusica();
 });
+

@@ -1,15 +1,10 @@
-/* 🎥 Fondo (crossfade sin corte) */
-#videoFondo,
-#videoFondoClone{
+
+/* 🎥 Fondo */
+#videoFondo{
   position:fixed; inset:0;
   width:100vw; height:100vh;
   object-fit:cover; z-index:-1;
   background:#000; pointer-events:none;
-  opacity:1; transition: opacity .6s linear; /* fundido más largo = corte menos visible */
-}
-#videoFondoClone{ opacity:0; }
-
-
 }
 
 /* Base */
@@ -121,6 +116,3 @@ html,body{ margin:0; height:100%; font-family:system-ui, -apple-system, Segoe UI
   margin: 0 !important;
   padding: 0 !important;
 }
-
-
-

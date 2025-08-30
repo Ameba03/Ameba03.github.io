@@ -15,10 +15,9 @@ document.addEventListener('visibilitychange', ()=>{ if (!document.hidden) playVi
 // ====== MÚSICA DE FONDO ======
 const audioEl   = document.getElementById('musicaFondo');
 const btnSonido = document.getElementById('btnSonido');
-// --- ARREGLO principal: debe empezar en false ---
-let musicaIniciada = false;
+let musicaIniciada = false;                // <-- ARREGLO: debe empezar en false
 
-// ---- Web Audio MIX (ganancia para el fondo) ----
+// ---- Web Audio MIX ----
 let audioCtx, bgGain;
 const videoGains = new Map();  // <video> -> GainNode
 
@@ -27,50 +26,61 @@ function ensureAudioCtx(){
   const Ctx = window.AudioContext || window.webkitAudioContext;
   audioCtx = new Ctx();
 
-  // Conectar la música de fondo al contexto y controlarla con una ganancia
+  // Conectar la música de fondo al contexto (y silenciar el <audio> nativo para evitar duplicados)
   const bgSrc = audioCtx.createMediaElementSource(audioEl);
   bgGain = audioCtx.createGain();
-  bgGain.gain.value = 0.7;
+  bgGain.gain.value = 0.7;           // volumen por defecto
   bgSrc.connect(bgGain).connect(audioCtx.destination);
+
+  audioEl.muted = true;               // el elemento queda mudo; suena por WebAudio
+  audioEl.volume = 0;                 // por si acaso
 }
 
-function iniciarMusica(){
-  // si ya está iniciada y sonando, nada que hacer
-  if (musicaIniciada && !audioEl.paused) return;
+function setBtnIcon(){
+  if (!btnSonido) return;
+  // si la ganancia está a 0 -> icono silencioso, si no, icono sonido
+  const isOn = bgGain ? bgGain.gain.value > 0 : (!audioEl.paused);
+  btnSonido.textContent = isOn ? '🔊' : '🔈';
+}
+
+async function iniciarMusica(){
+  // si ya está sonando, no hagas nada
+  if (musicaIniciada && audioEl && !audioEl.paused) { setBtnIcon(); return; }
 
   ensureAudioCtx();
   audioEl.loop = true;
-  // algunos navegadores necesitan resume() tras gesto del usuario
-  if (audioCtx && audioCtx.state === 'suspended') {
-    audioCtx.resume().catch(()=>{});
-  }
-  audioEl.play().then(()=>{
+
+  try { if (audioCtx.state === 'suspended') await audioCtx.resume(); } catch(_) {}
+
+  try {
+    await audioEl.play();
     musicaIniciada = true;
-    if (btnSonido) btnSonido.textContent = '🔊';
-  }).catch(()=>{ /* si lo bloquea, se iniciará en el primer tap */ });
+    setBtnIcon();
+  } catch(e){
+    // En móvil puede requerir gesto del usuario; lo reintentamos en el primer tap/click/tecla
+  }
 }
 
 // Intentos de inicio y desbloqueo por primer gesto global
 document.addEventListener('DOMContentLoaded', ()=> setTimeout(iniciarMusica, 80));
 window.addEventListener('load', iniciarMusica);
-['touchstart','click','keydown'].forEach(ev=>{
+['pointerdown','touchstart','click','keydown'].forEach(ev=>{
   document.addEventListener(ev, iniciarMusica, { once:true });
 });
 
-// Botón de sonido (mute/unmute via ganancia)
 btnSonido?.addEventListener('click', ()=>{
   ensureAudioCtx();
   if (!musicaIniciada || audioEl.paused){
     iniciarMusica();
     return;
   }
+  // mute/unmute moviendo la ganancia (no pausamos el <audio>)
   if (bgGain.gain.value > 0){
     bgGain.gain.value = 0;
-    btnSonido.textContent = '🔈';
   } else {
     bgGain.gain.value = 0.7;
-    btnSonido.textContent = '🔊';
   }
+  setBtnIcon();
 });
 
 // ====== Navegación entre pantallas ======
@@ -80,7 +90,7 @@ function siguientePantalla(id){
   });
   const s = document.getElementById(id);
   if (s){ s.classList.remove('oculto'); s.classList.add('visible'); }
-  iniciarMusica(); // primer toque => arranca música y AudioContext
+  iniciarMusica(); // cualquier toque/cambio de pantalla sirve para arrancar la música
 }
 window.siguientePantalla = siguientePantalla;
 
@@ -142,16 +152,17 @@ function prepararVideosCarta(){
     v.setAttribute('webkit-playsinline','');
     v.loop   = true;
     v.preload = 'metadata';
-    v.muted  = true;
+    v.muted  = true;             // el elemento está en mute para que Safari no “pause” otros
   });
 
+  // Crear nodos de audio para cada vídeo al primer gesto del usuario
   function setupVideoNodes(){
     ensureAudioCtx();
     vids.forEach(v=>{
-      if (videoGains.has(v)) return;
+      if (videoGains.has(v)) return; // ya montado
       const src  = audioCtx.createMediaElementSource(v);
       const gain = audioCtx.createGain();
-      gain.gain.value = 0;           // empieza silenciado (si luego quieres hacer fades)
+      gain.gain.value = 0;           // empieza silenciado
       src.connect(gain).connect(audioCtx.destination);
       videoGains.set(v, gain);
     });
@@ -166,10 +177,11 @@ function prepararVideosCarta(){
       const saliendo = !entry.isIntersecting || entry.intersectionRatio < 0.25;
 
       const gain = videoGains.get(v);
-      if (!gain) return;
+      if (!gain) return; // aún no se inicializó (antes del primer toque)
 
       if (entrando){
         v.play().catch(()=>{});
+        // subimos la ganancia del vídeo (0.25s suavizado)
         const t = audioCtx.currentTime;
         gain.gain.cancelScheduledValues(t);
         gain.gain.setValueAtTime(gain.gain.value, t);
@@ -187,9 +199,12 @@ function prepararVideosCarta(){
 
   vids.forEach(v=> io.observe(v));
 }
+
 document.addEventListener('DOMContentLoaded', prepararVideosCarta);
 document.addEventListener('visibilitychange', async ()=>{
   if (audioCtx && audioCtx.state === 'suspended') {
     try { await audioCtx.resume(); } catch(e){}
   }
+  // si volvemos a la pestaña y la música no suena, inténtalo de nuevo
+  if (audioEl && audioEl.paused) iniciarMusica();
 });

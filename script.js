@@ -15,7 +15,7 @@ document.addEventListener('visibilitychange', ()=>{ if (!document.hidden) playVi
 // ====== MÚSICA DE FONDO ======
 const audioEl   = document.getElementById('musicaFondo');
 const btnSonido = document.getElementById('btnSonido');
-let musicaIniciada = false;
+let musicaIniciada = true;
 
 // ---- Web Audio MIX ----
 let audioCtx, bgGain;
@@ -32,8 +32,7 @@ function ensureAudioCtx(){
   bgGain.gain.value = 0.7;           // volumen por defecto
   bgSrc.connect(bgGain).connect(audioCtx.destination);
 
-  audioEl.muted = true;               // el elemento queda mudo, suena por WebAudio
-  audioEl.volume = 0;                 // por si acaso
+
 }
 
 function iniciarMusica(){

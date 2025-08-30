@@ -15,9 +15,10 @@ document.addEventListener('visibilitychange', ()=>{ if (!document.hidden) playVi
 // ====== MÚSICA DE FONDO ======
 const audioEl   = document.getElementById('musicaFondo');
 const btnSonido = document.getElementById('btnSonido');
-let musicaIniciada = true;
+// --- ARREGLO principal: debe empezar en false ---
+let musicaIniciada = false;
 
-// ---- Web Audio MIX ----
+// ---- Web Audio MIX (ganancia para el fondo) ----
 let audioCtx, bgGain;
 const videoGains = new Map();  // <video> -> GainNode
 
@@ -26,32 +27,43 @@ function ensureAudioCtx(){
   const Ctx = window.AudioContext || window.webkitAudioContext;
   audioCtx = new Ctx();
 
-  // Conectar la música de fondo al contexto (y dejar el <audio> en mute)
+  // Conectar la música de fondo al contexto y controlarla con una ganancia
   const bgSrc = audioCtx.createMediaElementSource(audioEl);
   bgGain = audioCtx.createGain();
-  bgGain.gain.value = 0.7;           // volumen por defecto
+  bgGain.gain.value = 0.7;
   bgSrc.connect(bgGain).connect(audioCtx.destination);
-
-
 }
 
 function iniciarMusica(){
-  if (musicaIniciada) return;
+  // si ya está iniciada y sonando, nada que hacer
+  if (musicaIniciada && !audioEl.paused) return;
+
   ensureAudioCtx();
+  audioEl.loop = true;
+  // algunos navegadores necesitan resume() tras gesto del usuario
+  if (audioCtx && audioCtx.state === 'suspended') {
+    audioCtx.resume().catch(()=>{});
+  }
   audioEl.play().then(()=>{
     musicaIniciada = true;
-    btnSonido && (btnSonido.textContent = '🔊');
-    audioCtx.resume && audioCtx.resume();
-  }).catch(()=>{});
+    if (btnSonido) btnSonido.textContent = '🔊';
+  }).catch(()=>{ /* si lo bloquea, se iniciará en el primer tap */ });
 }
 
+// Intentos de inicio y desbloqueo por primer gesto global
+document.addEventListener('DOMContentLoaded', ()=> setTimeout(iniciarMusica, 80));
+window.addEventListener('load', iniciarMusica);
+['touchstart','click','keydown'].forEach(ev=>{
+  document.addEventListener(ev, iniciarMusica, { once:true });
+});
+
+// Botón de sonido (mute/unmute via ganancia)
 btnSonido?.addEventListener('click', ()=>{
-  if (!audioCtx) ensureAudioCtx();
+  ensureAudioCtx();
   if (!musicaIniciada || audioEl.paused){
     iniciarMusica();
     return;
   }
-  // mute/unmute moviendo la ganancia (no pausamos el <audio>)
   if (bgGain.gain.value > 0){
     bgGain.gain.value = 0;
     btnSonido.textContent = '🔈';
@@ -130,17 +142,16 @@ function prepararVideosCarta(){
     v.setAttribute('webkit-playsinline','');
     v.loop   = true;
     v.preload = 'metadata';
-    v.muted  = true;             // el elemento está en mute para que Safari no “pause” otros
+    v.muted  = true;
   });
 
-  // Crear nodos de audio para cada vídeo al primer gesto del usuario
   function setupVideoNodes(){
     ensureAudioCtx();
     vids.forEach(v=>{
-      if (videoGains.has(v)) return; // ya montado
+      if (videoGains.has(v)) return;
       const src  = audioCtx.createMediaElementSource(v);
       const gain = audioCtx.createGain();
-      gain.gain.value = 0;           // empieza silenciado
+      gain.gain.value = 0;           // empieza silenciado (si luego quieres hacer fades)
       src.connect(gain).connect(audioCtx.destination);
       videoGains.set(v, gain);
     });
@@ -155,11 +166,10 @@ function prepararVideosCarta(){
       const saliendo = !entry.isIntersecting || entry.intersectionRatio < 0.25;
 
       const gain = videoGains.get(v);
-      if (!gain) return; // aún no se inicializó (antes del primer toque)
+      if (!gain) return;
 
       if (entrando){
         v.play().catch(()=>{});
-        // subimos la ganancia del vídeo (0.25s suavizado)
         const t = audioCtx.currentTime;
         gain.gain.cancelScheduledValues(t);
         gain.gain.setValueAtTime(gain.gain.value, t);
@@ -177,7 +187,6 @@ function prepararVideosCarta(){
 
   vids.forEach(v=> io.observe(v));
 }
-
 document.addEventListener('DOMContentLoaded', prepararVideosCarta);
 document.addEventListener('visibilitychange', async ()=>{
   if (audioCtx && audioCtx.state === 'suspended') {

@@ -92,3 +92,19 @@ html,body{ margin:0; height:100%; font-family:system-ui, -apple-system, Segoe UI
   .galeria2{ grid-template-columns:1fr; }
   .pregunta-final .acciones{ flex-direction:column; }
 }
+
+/* --- Ajuste vídeos carta: tamaño más pequeño y formato vertical en móvil --- */
+.carta video{
+  width: 100%;
+  /* fuerza "vertical": recorta laterales de vídeo horizontal */
+  aspect-ratio: 9 / 16;
+  max-height: 48dvh;
+  display: block;
+  border-radius: 10px;
+  object-fit: cover;   /* cubre y recorta, se ve "vertical" */
+}
+
+/* más compacto en pantallas muy pequeñas */
+@media (max-width: 420px){
+  .carta video{ max-height: 42dvh; }
+}

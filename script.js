@@ -185,8 +185,7 @@ function siguientePantalla(id){
 window.siguientePantalla = siguientePantalla;
 
 
-}
-window.irAPregunta = irAPregunta;
+
 
 // ====== Resultado final ======
 function respuestaFinal(opcion){
@@ -292,4 +291,5 @@ document.addEventListener('visibilitychange', async ()=>{
   if (audioEl && audioEl.paused) iniciarMusica();
   reanudarOMigrar();
 });
+
 

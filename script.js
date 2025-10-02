@@ -184,11 +184,7 @@ function siguientePantalla(id){
 }
 window.siguientePantalla = siguientePantalla;
 
-// ====== Scroll a la pregunta final ======
-function irAPregunta(){
-  const cont = document.getElementById('cartaScroll');
-  const destino = document.getElementById('preguntaFinal');
-  if (cont && destino) cont.scrollTo({ top: destino.offsetTop - 8, behavior:'smooth' });
+
 }
 window.irAPregunta = irAPregunta;
 
@@ -296,3 +292,4 @@ document.addEventListener('visibilitychange', async ()=>{
   if (audioEl && audioEl.paused) iniciarMusica();
   reanudarOMigrar();
 });
+
